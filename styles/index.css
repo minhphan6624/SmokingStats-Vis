@@ -1,0 +1,44 @@
+/* Reset list styles */
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: #333;
+    /* Dark background for the navbar */
+    overflow: hidden;
+}
+
+/* Display list items inline */
+nav ul li {
+    float: left;
+}
+
+/* Style links */
+nav ul li a {
+    display: block;
+    color: white;
+    /* White text color */
+    text-align: center;
+    padding: 14px 20px;
+    /* Vertical and horizontal padding */
+    text-decoration: none;
+    font-family: Arial, sans-serif;
+    /* Modern font */
+}
+
+/* Change the link color on hover */
+nav ul li a:hover {
+    background-color: #ddd;
+    /* Lighter background on hover */
+    color: black;
+    /* Black text color on hover */
+}
+
+/* Responsive layout with flexbox */
+@media screen and (max-width: 600px) {
+    nav ul li {
+        float: none;
+        width: 100%;
+        /* Full width */
+    }
+}
