@@ -1,5 +1,5 @@
-width = 800;
-height = 500;
+width = 600;
+height = 300;
 
 //Creatin the svg
 var svg = d3.select(".vis")
