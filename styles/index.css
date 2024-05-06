@@ -34,6 +34,17 @@ nav ul li a:hover {
     /* Black text color on hover */
 }
 
+.intro {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), #51493f);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    height: 110vh;
+    align-items: center;
+}
+
+
+
 /* Responsive layout with flexbox */
 @media screen and (max-width: 600px) {
     nav ul li {
@@ -42,4 +53,3 @@ nav ul li a:hover {
         /* Full width */
     }
 }
-
