@@ -40,3 +40,14 @@
         stroke-opacity: .5;
     }
 }
+
+.center-svg {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.center-svg svg {
+    display: block;
+}

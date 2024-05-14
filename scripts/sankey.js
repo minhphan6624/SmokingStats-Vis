@@ -6,9 +6,9 @@ var margin = { top: 10, right: 10, bottom: 10, left: 10 },
   height = 300 - margin.top - margin.bottom;
 
 // format variables
-var formatNumber = d3.format(",.0f"),    // zero decimal places
-  format = function (d) { return formatNumber(d) + " " + units; },
-  color = d3.scaleOrdinal(d3.schemeCategory20);
+// var formatNumber = d3.format(",.0f"),    // zero decimal places
+//   format = function (d) { return formatNumber(d) + " " + units; },
+//   color = d3.scaleOrdinal(d3.schemeCategory20);
 
 // append the svg object to the body of the page
 var svg = d3.select(".vis1").append("svg")
