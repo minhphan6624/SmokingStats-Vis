@@ -1,21 +1,19 @@
+/* Styling for introduction section */
 .intro {
-    background: linear-gradient(rgba(0, 0, 0, 0.4), #51493f);
+    /* background: linear-gradient(rgba(0, 0, 0, 0.4), #51493f); */
+    background-image: url("../img/background.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    height: 110vh;
+    height: 80vh;
+
+    color: darkorange;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-}
-
-
-
-/* Responsive layout with flexbox */
-@media screen and (max-width: 600px) {
-    nav ul li {
-        float: none;
-        width: 100%;
-        /* Full width */
-    }
+    margin-bottom: 10px;
 }
 
 .sankey {
@@ -41,6 +39,14 @@
     }
 }
 
+.vis-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Visualization alignment */
 .center-svg {
     display: flex;
     flex-direction: column;

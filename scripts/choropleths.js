@@ -2,10 +2,9 @@ var w = 800;
 var h = 500;
 
 //Set up projection
-var projection = d3.geoMercator()
-    .center([140, -36.5])
-    .translate([300, 250])
-    .scale(90);
+var projection = d3.geoNaturalEarth1()
+    .translate([w / 2, h / 2])
+    .scale(150);
 
 //Define path generator
 var path = d3.geoPath()

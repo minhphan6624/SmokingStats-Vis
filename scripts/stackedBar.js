@@ -11,7 +11,7 @@ var dataset = [
     { apples: 23, oranges: 17, grapes: 43 }
 ];
 
-//Set up stack method
+//Set up stack 
 var stack = d3.stack()
     .keys(["apples", "oranges", "grapes"])
     .order(d3.stackOrderDescending);  // <-- Flipped stacking order
