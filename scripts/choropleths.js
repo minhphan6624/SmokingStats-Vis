@@ -17,14 +17,159 @@ var mapSvg = d3.select(".vis2")
     .attr("height", h)
     .attr("fill", "grey");
 
-//Load in GeoJSON data
-d3.json("scripts/worldMap.json").then(function (json) {
+// Define color range
+var color = d3.scaleQuantize()
+			// .range(["rgb(237,248,233)","rgb(186,228,179)","rgb(116,196,118)","rgb(49,163,84)","rgb(0,109,44)"]);
+            .range([
+                "#ffffe5", // light yellow
+        "#f7fcb9",
+        "#d9f0a3",
+        "#addd8e",
+        "#78c679",
+        "#41ab5d",
+        "#238443",
+        "#006837",
+        "#004529"  
+            ]);
 
-    //Bind data and create one path per GeoJSON feature
-    mapSvg.selectAll("path")
-        .data(json.features)
-        .enter()
-        .append("path")
-        .attr("d", path);
+d3.csv("../data/consumption-per-smoker-per-day.csv").then((data) => {
+    // Set color domain
+    // color.domain([
+    //     d3.min(data, (d) =>  {return d.value}),
+    //     d3.max(data, (d) =>  {return d.value})
+    // ]);
 
-});
+    // //Load in GeoJSON data
+    // d3.json("scripts/worldMap.json").then(function (json) {
+
+    //     var countryData = {};
+        
+    //     data.forEach(d => {
+    //         var year = +d.Year;
+    //         var code = d.Code;
+    //         var value = +d.Value;
+
+    //         if (!countryData[code]) {
+    //             countryData[code] = {};
+    //         }
+    //         countryData[code][year] = value;
+    //     });
+
+        // //Merge csv data and GeoJSON
+        // //Loop through each value
+        // for (var i = 0; i < data.length; i++) {
+
+        //     //Grab the country code from csv
+        //     if (data[i].Year == "2000")
+        //         var csvCode = data[i].Code;
+
+        //     var csvDataArray = [];
+            
+        //     //Grab csv data value, convert from string to float
+        //     var csvValue = parseFloat(data[i].Value);
+
+        //     //Find the corresponding country code in GeoJSON
+        //     for (var j = 0; j < json.features.length; j++){
+                
+        //         var jsonCode = json.features[j].properties.iso_a3;
+        //         // console.log(jsonCode);
+        //         if (csvCode == jsonCode){
+        //             console.log(true);
+        //             json.features[j].properties.value = csvValue;
+
+        //             break;
+        //         }
+        //     }
+        // }
+
+        //Bind data and create one path per GeoJSON feature
+        // mapSvg.selectAll("path")
+        //     .data(json.features)
+        //     .enter()
+        //     .append("path")
+        //     .attr("d", path)
+        //     .style("fill", (d) => {
+        //         var value = d.properties.value;
+
+        //         if (value){
+        //             return color(value);
+        //         }
+        //         else {
+        //             return "#ccc";
+        //         }
+        //     });
+        var countryData = {};
+        data.forEach(d => {
+            var year = +d.Year; // Convert Year to number
+            var code = d.Code; // Country code remains a string
+            var value = +d.Value; // Convert Value to number
+    
+            if (!countryData[code]) {
+                countryData[code] = {};
+            }
+            countryData[code][year] = value;
+        });
+    
+        // Load in GeoJSON data
+        d3.json("scripts/worldMap.json").then(function (json) {
+            // Merge csv data and GeoJSON
+            json.features.forEach(feature => {
+                var code = feature.properties.iso_a3;
+                if (countryData[code]) {
+                    feature.properties.values = countryData[code];
+                } else {
+                    feature.properties.values = {}; // If no data, set an empty object
+                }
+            });
+    
+            // Bind data and create one path per GeoJSON feature
+            mapSvg.selectAll("path")
+                .data(json.features)
+                .enter()
+                .append("path")
+                .attr("d", path)
+                .attr("stroke", "#fff")
+                .attr("stroke-width", 1);
+    
+            // // Create a dropdown to select year
+            // var years = d3.range(1980, 2013);
+            // var dropdown = d3.select(".vis2")
+            //     .append("select")
+            //     .attr("class", "year-dropdown")
+            //     .on("change", updateMap);
+    
+            // dropdown.selectAll("option")
+            //     .data(years)
+            //     .enter()
+            //     .append("option")
+            //     .attr("value", d => d)
+            //     .text(d => d);
+            // Slider for year selection
+            var slider = d3.select("#year-slider");
+            var selectedYearLabel = d3.select("#selected-year");
+
+            slider.on("input", function() {
+                var selectedYear = slider.node().value;
+                selectedYearLabel.text(selectedYear);
+                updateMap(selectedYear);
+            });
+    
+            // Initial map display
+            updateMap();
+    
+            function updateMap(selectedYear) {
+            // Set color domain based on the selected year
+            color.domain([
+                d3.min(json.features, d => d.properties.values[selectedYear]),
+                d3.max(json.features, d => d.properties.values[selectedYear])
+            ]);
+
+            // Update map colors based on the selected year
+            mapSvg.selectAll("path")
+                .attr("fill", d => {
+                    var value = d.properties.values[selectedYear];
+                    return value ? color(value) : "#ccc";
+                });
+        }
+        });
+})

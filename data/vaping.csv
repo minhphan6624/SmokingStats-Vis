@@ -1,0 +1,365 @@
+Country Code,Country,Sex,Year,Observed Percentage,Observed Persons
+SVN,Slovenia,Male,2019,2.1,18557.679
+DNK,Denmark,Male,2017,2.9,68850.118
+DNK,Denmark,Male,2021,2.7,65464.146
+CRI,Costa Rica,Female,2022,2.8,57295.448
+LUX,Luxembourg,Male,2019,2.3,6001.735
+AUS,Australia,Male,2016,1.3,125521.227
+AUS,Australia,Male,2019,2.7,273937.518
+ISR,Israel,Female,2017,0,0
+ISR,Israel,Female,2019,0.4,13275.744
+CAN,Canada,Female,2015,2.6,394029.792
+CAN,Canada,Female,2017,2.5,387856.5
+CAN,Canada,Female,2019,3.6,575282.304
+CAN,Canada,Female,2020,2.9,468896.36
+CAN,Canada,Female,2021,3.5,569974.3
+BEL,Belgium,Total,2018,4.1,388406.161
+ISR,Israel,Male,2017,0.7,21409.99
+ISR,Israel,Male,2019,2.8,89210.8
+DEU,Germany,Female,2019,2,731519.5
+DEU,Germany,Male,2019,4.6,1618093.47
+SWE,Sweden,Female,2018,1.5,62778.195
+SWE,Sweden,Female,2020,0.8,34020.744
+SWE,Sweden,Female,2021,0.8,34251.928
+SWE,Sweden,Female,2022,1.8,77704.128
+KOR,Korea,Female,2019,1,226706.23
+KOR,Korea,Female,2020,0.8,182197.168
+KOR,Korea,Female,2021,0.9,205815.564
+KOR,Korea,Male,2019,4.3,971965.464
+KOR,Korea,Male,2020,4.3,976491.085
+KOR,Korea,Male,2021,4.2,957666.486
+NZL,New Zealand,Male,2013,0.1,1706.21
+NZL,New Zealand,Male,2016,1.7,31514.6
+NZL,New Zealand,Male,2018,4.8,93324.48
+NZL,New Zealand,Male,2019,6.1,120777.56
+NZL,New Zealand,Male,2020,6.3,127945.44
+NZL,New Zealand,Male,2021,9.5,193786.7
+NZL,New Zealand,Male,2022,10.6,217109.2
+FRA,France,Total,2014,2.9,1564459.027
+FRA,France,Total,2016,2.5,1361060.875
+FRA,France,Total,2017,2.7,1476612.234
+FRA,France,Total,2018,3.8,2089448.544
+FRA,France,Total,2019,4.4,2432354.188
+FRA,France,Total,2020,4.3,2388336.788
+FRA,France,Total,2021,5,2791173.2
+ESP,Spain,Total,2018,1.5,596788.545
+ESP,Spain,Total,2020,1.8,729633.132
+ESP,Spain,Total,2022,2.2,902560.846
+SVK,Slovak Republic,Female,2019,1,23715.57
+AUS,Australia,Female,2016,0.6,59776.986
+AUS,Australia,Female,2019,1.5,156931.89
+EST,Estonia,Male,2012,1.9,9710.178
+EST,Estonia,Male,2014,7.9,40080.887
+EST,Estonia,Male,2016,6.3,32008.032
+EST,Estonia,Male,2018,5.9,30214.372
+EST,Estonia,Male,2020,6,31066.86
+EST,Estonia,Male,2022,11.8,62206.65
+GBR,United Kingdom,Female,2014,3.4,926029.678
+GBR,United Kingdom,Female,2015,4.4,1205996.22
+GBR,United Kingdom,Female,2016,4.9,1351171.227
+GBR,United Kingdom,Female,2017,4.6,1274222.724
+GBR,United Kingdom,Female,2018,5,1391855.85
+GBR,United Kingdom,Female,2019,5.4,1511427.654
+GBR,United Kingdom,Female,2020,3,843045.93
+GBR,United Kingdom,Female,2021,3.5,1000333.39
+FIN,Finland,Female,2016,4.4,103437.444
+FIN,Finland,Female,2017,1.8,42412.158
+FIN,Finland,Female,2018,1.2,28333.452
+FIN,Finland,Female,2019,1,23674.41
+FIN,Finland,Female,2020,1.2,28503.252
+GRC,Greece,Female,2019,1.3,61941.828
+CHL,Chile,Male,2014,1,68711.79
+CHL,Chile,Male,2016,1.3,91826.787
+CHL,Chile,Male,2018,2,147254.38
+CHL,Chile,Male,2020,1.4,107742.026
+AUT,Austria,Male,2019,1,37089.34
+CHE,Switzerland,Female,2017,1.1,40128.88
+CAN,Canada,Total,2015,2.9,867363.175
+CAN,Canada,Total,2017,3.1,949627.743
+CAN,Canada,Total,2019,4.7,1484911.42
+CAN,Canada,Total,2020,4.4,1406619.852
+CAN,Canada,Total,2021,4.7,1513636.41
+SVN,Slovenia,Total,2019,1.7,30164.069
+CRI,Costa Rica,Total,2022,4.4,180497.152
+HUN,Hungary,Total,2014,0.6,50639.79
+HUN,Hungary,Total,2019,2,166992.04
+PRT,Portugal,Male,2014,1.3,54255.76
+PRT,Portugal,Male,2019,2.1,88146.282
+USA,United States,Male,2014,4.1,5145572.283
+USA,United States,Male,2015,4.3,5449759.413
+USA,United States,Male,2016,3.8,4860948.524
+USA,United States,Male,2017,3.3,4255315.977
+USA,United States,Male,2018,4.3,5583946.589
+USA,United States,Male,2019,5.5,7189963.11
+USA,United States,Male,2020,4.6,6141801.136
+USA,United States,Male,2021,5.1,6836927.757
+CHE,Switzerland,Male,2017,1.6,56667.68
+LTU,Lithuania,Male,2019,2.5,27088.975
+IRL,Ireland,Female,2015,3,56403.48
+IRL,Ireland,Female,2016,3,57051.96
+IRL,Ireland,Female,2017,3,57839.7
+IRL,Ireland,Female,2018,4,78335.44
+IRL,Ireland,Female,2019,5,99553.65
+IRL,Ireland,Female,2021,3,61313.76
+IRL,Ireland,Female,2022,5,104686.6
+CAN,Canada,Male,2015,3.3,486884.739
+CAN,Canada,Male,2017,3.8,574517.934
+CAN,Canada,Male,2019,5.8,905600.168
+CAN,Canada,Male,2020,5.8,916387.994
+CAN,Canada,Male,2021,6,955203
+NLD,Netherlands,Female,2016,3.1,223890.246
+NLD,Netherlands,Female,2017,2.9,211057.331
+NLD,Netherlands,Female,2018,2.9,212731.472
+NLD,Netherlands,Female,2019,1.5,110961.39
+NLD,Netherlands,Female,2020,1.1,81933.115
+NLD,Netherlands,Female,2021,1.4,104924.414
+ESP,Spain,Female,2018,1.2,245430.624
+ESP,Spain,Female,2020,1.2,250098.216
+ESP,Spain,Female,2022,2.1,443315.817
+SWE,Sweden,Total,2018,1.7,142256.221
+SWE,Sweden,Total,2020,1,85171.35
+SWE,Sweden,Total,2021,0.9,77196.249
+SWE,Sweden,Total,2022,1.7,147098.314
+ITA,Italy,Female,2014,1,270296.42
+ITA,Italy,Female,2015,0.8,216032.424
+ITA,Italy,Female,2016,0.9,242678.709
+ITA,Italy,Female,2017,1.3,349986.702
+ITA,Italy,Female,2018,1.5,403198.185
+ITA,Italy,Female,2019,1.9,510184.466
+ITA,Italy,Female,2020,1.9,508268.43
+ITA,Italy,Female,2021,2.4,638827.056
+NOR,Norway,Total,2015,3.3,140471.892
+NOR,Norway,Total,2016,3.3,141910.56
+NOR,Norway,Total,2017,3,130159.23
+NOR,Norway,Total,2018,3.1,135624.07
+NOR,Norway,Total,2019,3.1,136875.881
+NOR,Norway,Total,2020,2.9,129154.748
+NOR,Norway,Total,2021,2.6,116727.78
+NOR,Norway,Total,2022,2.3,104445.346
+AUT,Austria,Female,2019,0.4,15553.5
+NZL,New Zealand,Female,2013,0.1,1827.11
+NZL,New Zealand,Female,2016,1.1,21292.48
+NZL,New Zealand,Female,2018,3.1,62308.14
+NZL,New Zealand,Female,2019,3.4,69470.84
+NZL,New Zealand,Female,2020,4.3,89991.69
+NZL,New Zealand,Female,2021,7,147245
+NZL,New Zealand,Female,2022,10.1,213263.52
+HUN,Hungary,Female,2014,0.5,22364.3
+HUN,Hungary,Female,2019,1.4,61616.786
+PRT,Portugal,Female,2014,0.8,37851.312
+PRT,Portugal,Female,2019,1.2,57088.512
+NLD,Netherlands,Male,2016,3.8,266656.602
+NLD,Netherlands,Male,2017,3.3,233681.646
+NLD,Netherlands,Male,2018,3.4,242924.356
+NLD,Netherlands,Male,2019,1.7,122646.33
+NLD,Netherlands,Male,2020,1.2,87289.44
+NLD,Netherlands,Male,2021,1.4,102568.9
+CZE,Czechia,Female,2017,4.5,205817.445
+CZE,Czechia,Female,2018,3.3,151022.454
+CZE,Czechia,Female,2019,3.6,164986.02
+CZE,Czechia,Female,2020,3.5,160634.04
+CZE,Czechia,Female,2021,6,270175.08
+LTU,Lithuania,Female,2019,0.8,10306.224
+IRL,Ireland,Male,2015,3,54178.98
+IRL,Ireland,Male,2016,3,54971.43
+IRL,Ireland,Male,2017,4,74299.04
+IRL,Ireland,Male,2018,5,94494.85
+IRL,Ireland,Male,2019,6,115289.94
+IRL,Ireland,Male,2021,4,78884.48
+IRL,Ireland,Male,2022,7,140388.01
+DEU,Germany,Total,2019,3.3,2367813.36
+ESP,Spain,Male,2018,1.8,348000.354
+ESP,Spain,Male,2020,2.4,472647.648
+ESP,Spain,Male,2022,2.3,458049.968
+FRA,France,Female,2014,2.3,647661.508
+FRA,France,Female,2016,1.9,540295.343
+FRA,France,Female,2017,2.1,599991.903
+FRA,France,Female,2018,3,861638.82
+FRA,France,Female,2019,3.4,981522.234
+FRA,France,Female,2021,4.4,1282404.464
+SVK,Slovak Republic,Total,2019,1.2,55119.192
+GBR,United Kingdom,Total,2014,3.7,1968001.436
+GBR,United Kingdom,Total,2015,4.5,2411066.025
+GBR,United Kingdom,Total,2016,5.6,3022388.432
+GBR,United Kingdom,Total,2017,5.5,2982796.08
+GBR,United Kingdom,Total,2018,6.3,3435018.552
+GBR,United Kingdom,Total,2019,5.7,3125642.082
+GBR,United Kingdom,Total,2020,3.8,2094042.326
+GBR,United Kingdom,Total,2021,4.9,2718384.907
+ISL,Iceland,Female,2016,1.8,2405.538
+ISL,Iceland,Female,2017,3.3,4496.349
+ISL,Iceland,Female,2018,3.9,5441.67
+ISL,Iceland,Female,2019,4.2,5988.276
+ISL,Iceland,Female,2020,4.1,5950.371
+ISL,Iceland,Female,2021,4.2,6206.76
+ISL,Iceland,Female,2022,5.1,7726.092
+CHE,Switzerland,Total,2017,1.4,100657.34
+LVA,Latvia,Female,2019,1.8,15894.648
+FRA,France,Male,2014,3.5,902568.345
+FRA,France,Male,2016,3,780175.14
+FRA,France,Male,2017,3.2,835785.568
+FRA,France,Male,2018,4.5,1181888.73
+FRA,France,Male,2019,5.2,1373448.752
+FRA,France,Male,2021,5.7,1520640.756
+NZL,New Zealand,Total,2013,0.1,3533.3
+NZL,New Zealand,Total,2016,1.4,53052.44
+NZL,New Zealand,Total,2018,3.9,154214.19
+NZL,New Zealand,Total,2019,4.8,193113.6
+NZL,New Zealand,Total,2020,5.3,218555.57
+NZL,New Zealand,Total,2021,8.2,339765.36
+NZL,New Zealand,Total,2022,10.3,428452.19
+SVN,Slovenia,Female,2019,1.3,11578.554
+CHL,Chile,Female,2014,1,72175.09
+CHL,Chile,Female,2016,1,74107.97
+CHL,Chile,Female,2018,1.1,84618.006
+CHL,Chile,Female,2020,0.5,40122.065
+DNK,Denmark,Female,2017,2.1,50949.969
+DNK,Denmark,Female,2021,2,49579.8
+LTU,Lithuania,Total,2019,1.6,37949.392
+DNK,Denmark,Total,2017,2.5,120008.275
+DNK,Denmark,Total,2021,2.3,112782.524
+NOR,Norway,Female,2015,3.2,67924.192
+NOR,Norway,Female,2016,2.7,57854.358
+NOR,Norway,Female,2017,2.9,62672.828
+NOR,Norway,Female,2018,2.9,63193.871
+NOR,Norway,Female,2019,2.9,63751.367
+NOR,Norway,Female,2020,2.6,57619.172
+NOR,Norway,Female,2021,2.1,46893.756
+NOR,Norway,Female,2022,2,45202.66
+ISL,Iceland,Male,2016,3.9,5269.563
+ISL,Iceland,Male,2017,4.5,6301.62
+ISL,Iceland,Male,2018,5,7279.1
+ISL,Iceland,Male,2019,4.4,6598.328
+ISL,Iceland,Male,2020,3.9,5956.275
+ISL,Iceland,Male,2021,4.4,6835.18
+ISL,Iceland,Male,2022,4.1,6572.054
+ITA,Italy,Total,2014,1.5,779407.59
+ITA,Italy,Total,2015,1.2,623466.156
+ITA,Italy,Total,2016,1.3,675297.675
+ITA,Italy,Total,2017,2.1,1090806.675
+ITA,Italy,Total,2018,2.3,1194618.505
+ITA,Italy,Total,2019,2.6,1350163.23
+ITA,Italy,Total,2020,2.5,1293919.85
+ITA,Italy,Total,2021,2.9,1495530.058
+CZE,Czechia,Total,2017,5.2,464404.928
+CZE,Czechia,Total,2018,4.6,411459.972
+CZE,Czechia,Total,2019,4.9,439427.051
+CZE,Czechia,Total,2020,4.8,431285.328
+CZE,Czechia,Total,2021,7.4,652113.752
+HUN,Hungary,Male,2014,0.9,35703.945
+HUN,Hungary,Male,2019,2.7,106606.881
+FIN,Finland,Total,2016,6.5,299012.74
+FIN,Finland,Total,2017,2.3,106165.861
+FIN,Finland,Total,2018,2.2,101842.268
+FIN,Finland,Total,2019,2.2,102189.34
+FIN,Finland,Total,2020,1.7,79281.132
+GRC,Greece,Male,2019,2.3,101764.167
+ISL,Iceland,Total,2016,2.8,7525.224
+ISL,Iceland,Total,2017,3.9,10775.271
+ISL,Iceland,Total,2018,4.5,12830.04
+ISL,Iceland,Total,2019,4.3,12579.22
+ISL,Iceland,Total,2020,4,11914.24
+ISL,Iceland,Total,2021,4.3,13034.375
+ISL,Iceland,Total,2022,4.6,14345.238
+AUT,Austria,Total,2019,0.7,53181.163
+NOR,Norway,Male,2015,3.4,72559.162
+NOR,Norway,Male,2016,3.8,81987.508
+NOR,Norway,Male,2017,3.1,67502.779
+NOR,Norway,Male,2018,3.3,72463.743
+NOR,Norway,Male,2019,3.3,73161.924
+NOR,Norway,Male,2020,3.2,71599.68
+NOR,Norway,Male,2021,3.2,72207.808
+NOR,Norway,Male,2022,2.5,57024.225
+CRI,Costa Rica,Male,2022,6.3,129524.346
+LVA,Latvia,Male,2019,4.7,34105.738
+FIN,Finland,Male,2016,8.3,186695.635
+FIN,Finland,Male,2017,2.9,65530.604
+FIN,Finland,Male,2018,3.1,70310.263
+FIN,Finland,Male,2019,3.4,77435.986
+FIN,Finland,Male,2020,2.2,50343.15
+GRC,Greece,Total,2019,1.8,165407.13
+USA,United States,Female,2014,3.4,4481394.82
+USA,United States,Female,2015,2.6,3457226.89
+USA,United States,Female,2016,2.6,3487399.838
+USA,United States,Female,2017,2.4,3243945.144
+USA,United States,Female,2018,2.3,3130291.927
+USA,United States,Female,2019,3.5,4794657.21
+USA,United States,Female,2020,2.8,3847305.644
+USA,United States,Female,2021,4,5521828.4
+LVA,Latvia,Total,2019,3,48260.7
+ITA,Italy,Male,2014,2.1,523548.144
+ITA,Italy,Male,2015,1.6,399223.36
+ITA,Italy,Male,2016,1.6,399706.784
+ITA,Italy,Male,2017,2.9,725612.509
+ITA,Italy,Male,2018,3.2,801921.792
+ITA,Italy,Male,2019,3.4,852636.394
+ITA,Italy,Male,2020,3.1,775180.544
+ITA,Italy,Male,2021,3.4,848375.072
+CZE,Czechia,Male,2017,5.9,257071.437
+CZE,Czechia,Male,2018,5.9,257732.296
+CZE,Czechia,Male,2019,6.2,271867.148
+CZE,Czechia,Male,2020,6.1,268129.587
+CZE,Czechia,Male,2021,8.8,379229.84
+PRT,Portugal,Total,2014,1,89049.32
+PRT,Portugal,Total,2019,1.6,143277.088
+KOR,Korea,Total,2019,2.6,1178235.292
+KOR,Korea,Total,2020,2.6,1183789.594
+KOR,Korea,Total,2021,2.5,1140031.05
+EST,Estonia,Total,2012,1.2,13397.832
+EST,Estonia,Total,2014,5.8,64132.572
+EST,Estonia,Total,2016,3.8,41923.994
+EST,Estonia,Total,2018,3.7,40909.124
+EST,Estonia,Total,2020,3.8,42213.934
+EST,Estonia,Total,2022,10.4,117310.024
+GBR,United Kingdom,Male,2014,4,1038122.44
+GBR,United Kingdom,Male,2015,4.6,1203831.04
+GBR,United Kingdom,Male,2016,6.3,1662966.837
+GBR,United Kingdom,Male,2017,6.5,1724590.53
+GBR,United Kingdom,Male,2018,7.7,2054897.999
+GBR,United Kingdom,Male,2019,6.1,1637631.925
+GBR,United Kingdom,Male,2020,4.7,1269227.762
+GBR,United Kingdom,Male,2021,6.4,1721362.496
+EST,Estonia,Female,2012,0.7,4237.968
+EST,Estonia,Female,2014,4.3,25730.383
+EST,Estonia,Female,2016,2.1,12499.179
+EST,Estonia,Female,2018,2.2,13057.968
+EST,Estonia,Female,2020,2.4,14234.688
+EST,Estonia,Female,2022,9.5,57076.57
+LUX,Luxembourg,Total,2019,1.8,9371.898
+BEL,Belgium,Female,2018,2.7,130893.921
+BEL,Belgium,Male,2018,5.6,259022.288
+NLD,Netherlands,Total,2016,3.5,498384.075
+NLD,Netherlands,Total,2017,3.1,445132.131
+NLD,Netherlands,Total,2018,3.2,463372.864
+NLD,Netherlands,Total,2019,1.6,233790.656
+NLD,Netherlands,Total,2020,1.1,161948.435
+NLD,Netherlands,Total,2021,1.4,207493.314
+USA,United States,Total,2014,3.7,9520377.241
+USA,United States,Total,2015,3.5,9089809.96
+USA,United States,Total,2016,3.2,8385614.752
+USA,United States,Total,2017,2.8,7395173.8
+USA,United States,Total,2018,3.2,8510683.904
+USA,United States,Total,2019,4.5,12047256.36
+USA,United States,Total,2020,3.7,10024083.99
+USA,United States,Total,2021,4.5,12244640.27
+SWE,Sweden,Male,2018,1.9,79473.2
+SWE,Sweden,Male,2020,1.2,51174.504
+SWE,Sweden,Male,2021,0.9,38662.83
+SWE,Sweden,Male,2022,1.5,65039.19
+CHL,Chile,Total,2014,1,140886.88
+CHL,Chile,Total,2016,1.2,173692.752
+CHL,Chile,Total,2018,1.5,225828.975
+CHL,Chile,Total,2020,0.9,141482.448
+ISR,Israel,Total,2017,0.3,18750.864
+ISR,Israel,Total,2019,1.5,97575.54
+LUX,Luxembourg,Female,2019,1.2,3116.592
+AUS,Australia,Total,2016,0.9,176564.79
+AUS,Australia,Total,2019,2.1,432767.16
+SVK,Slovak Republic,Male,2019,1.3,28882.204
+IRL,Ireland,Total,2015,3,110582.46
+IRL,Ireland,Total,2016,3,112023.39
+IRL,Ireland,Total,2017,4,151418.64
+IRL,Ireland,Total,2018,4,153931.32
+IRL,Ireland,Total,2019,5,195628.6
+IRL,Ireland,Total,2021,4,160636.16
+IRL,Ireland,Total,2022,6,245956.5
