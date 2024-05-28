@@ -1,11 +1,11 @@
 /* Styling for introduction section */
 .intro {
     /* background: linear-gradient(rgba(0, 0, 0, 0.4), #51493f); */
-    background-image: url("../img/background.jpg");
+    background-image: url("../img/smokebg.jpg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    height: 80vh;
+    height: 39vh;
 
     color: darkorange;
 
