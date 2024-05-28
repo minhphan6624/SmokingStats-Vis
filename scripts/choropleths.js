@@ -20,17 +20,7 @@ var mapSvg = d3.select(".vis2")
 // Define color range
 var color = d3.scaleQuantize()
 			// .range(["rgb(237,248,233)","rgb(186,228,179)","rgb(116,196,118)","rgb(49,163,84)","rgb(0,109,44)"]);
-            .range([
-                "#ffffe5", // light yellow
-        "#f7fcb9",
-        "#d9f0a3",
-        "#addd8e",
-        "#78c679",
-        "#41ab5d",
-        "#238443",
-        "#006837",
-        "#004529"  
-            ]);
+            .range(["#fbb4ae","#b3cde3","#ccebc5","#decbe4","#fed9a6","#ffffcc","#e5d8bd","#fddaec","#f2f2f2"]);
 
 d3.csv("../data/consumption-per-smoker-per-day.csv").then((data) => {
     // Set color domain
@@ -155,21 +145,29 @@ d3.csv("../data/consumption-per-smoker-per-day.csv").then((data) => {
             });
     
             // Initial map display
-            updateMap();
+            updateMap(slider.node().value);
+
     
             function updateMap(selectedYear) {
-            // Set color domain based on the selected year
-            color.domain([
-                d3.min(json.features, d => d.properties.values[selectedYear]),
-                d3.max(json.features, d => d.properties.values[selectedYear])
-            ]);
-
-            // Update map colors based on the selected year
-            mapSvg.selectAll("path")
-                .attr("fill", d => {
-                    var value = d.properties.values[selectedYear];
-                    return value ? color(value) : "#ccc";
-                });
-        }
+                var values = json.features.map(d => d.properties.values[selectedYear]);
+                var minValue = d3.min(values);
+                var maxValue = d3.max(values);
+            
+                color.domain([minValue, maxValue]);
+            
+                // Update map colors based on the selected year
+                mapSvg.selectAll("path")
+                    .attr("fill", d => {
+                        var value = d.properties.values[selectedYear];
+                        return value ? color(value) : "#ccc";
+                    });
+            }
+            // // Update map colors based on the selected year
+            // mapSvg.selectAll("path")
+            //     .attr("fill", d => {
+            //         var value = d.properties.values[selectedYear];
+            //         return value ? color(value) : "#ccc";
+            //     });
+        
         });
 })
