@@ -1,86 +1,57 @@
-// Sample data
-const flare = {
-    name: "flare",
-    children: [
-      {
-        name: "analytics",
-        children: [
-          { name: "cluster", size: 3938 },
-          { name: "graph", size: 3534 },
-          { name: "optimization", size: 5731 }
-        ]
-      },
-      {
-        name: "animate",
-        children: [
-          { name: "interpolate", size: 8746 },
-          { name: "pause", size: 9123 }
-        ]
-      }
-    ]
-  };
-  
-  // Treemap chart function
-  const chart = (data) => {
-    // Create hierarchy and sum the sizes
-    const root = d3.hierarchy(data)
-      .sum(d => d.size)
-      .sort((a, b) => b.height - a.height || b.value - a.value);
-  
-    // Create treemap layout
-    d3.treemap()
-      .size([800, 600])
-      .padding(1)
-      .round(true)
-      (root);
-  
-    console.log("Treemap root:", root); // Debugging log
-  
-    // Create SVG container
-    const svg = d3.select(".vis1")
-      .append("svg")
-      .attr("width", 800)
-      .attr("height", 600)
-      .style("font", "10px sans-serif")
-      .style("border", "1px solid black"); // Add border to see the SVG area
-  
-    // Create nodes
-    const node = svg.selectAll("g")
-      .data(root.leaves())
-      .enter()
-      .append("g")
-      .attr("transform", d => `translate(${d.x0},${d.y0})`);
-  
-    // Add rectangles
-    // node.append("rect")
-    //   .attr("id", d => (d.leafUid = d3.uid("leaf")).id)
-    //   .attr("width", d => {
-    //     console.log("Rectangle width:", d.x1 - d.x0); // Debugging log
-    //     return d.x1 - d.x0;
-    //   })
-    //   .attr("height", d => {
-    //     console.log("Rectangle height:", d.y1 - d.y0); // Debugging log
-    //     return d.y1 - d.y0;
-    //   })
-    //   .attr("fill", d => d3.schemeTableau10[d.data.name.length % 10])
-    //   .attr("stroke", "black") // Add stroke for better visibility
-    //   .attr("fill-opacity", 1); // Ensure fill opacity is 1 for full visibility
-  
-    // Add text
-    // node.append("text")
-    //   .attr("clip-path", d => d.clipUid)
-    //   .selectAll("tspan")
-    //   .data(d => d.data.name.split(/(?=[A-Z][a-z])|\s+/g))
-    //   .enter()
-    //   .append("tspan")
-    //   .attr("x", 3)
-    //   .attr("y", (d, i, nodes) => `${(i === nodes.length - 1) * 0.3 + 1.1 + i * 0.9}em`)
-    //   .text(d => d)
-    //   .attr("fill", "black"); // Ensure text is visible
-  
-    //return svg.node();
-  };
-  
-  // Call the chart function with the sample data
-  chart(flare);
-  
+ // Set the dimensions and margins of the graph
+ var margin = {top: 10, right: 10, bottom: 10, left: 10},
+ width = 445 - margin.left - margin.right,
+ height = 445 - margin.top - margin.bottom;
+
+// Append the svg object to the body of the page
+var svg = d3.select(".vis1")
+.append("svg")
+ .attr("width", width + margin.left + margin.right)
+ .attr("height", height + margin.top + margin.bottom)
+.append("g")
+ .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// Read SAMPLE data - CHANGE CSV
+d3.csv('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_hierarchy_1level.csv').then(function(data) {
+// Stratify the data: reformatting for d3.js
+var root = d3.stratify()
+ .id(function(d) { return d.name; })   // Name of the entity (column name is name in csv)
+ .parentId(function(d) { return d.parent; })   // Name of the parent (column name is parent in csv)
+ (data);
+
+// Sum the values of each node
+root.sum(function(d) { return +d.value; });
+
+// Compute the treemap layout
+d3.treemap()
+ .size([width, height])
+ .padding(4)
+ (root);
+
+console.log(root.leaves());  // Debugging log
+
+// Use this information to add rectangles
+svg.selectAll("rect")
+ .data(root.leaves())
+ .enter()
+ .append("rect")
+   .attr('x', function(d) { return d.x0; })
+   .attr('y', function(d) { return d.y0; })
+   .attr('width', function(d) { return d.x1 - d.x0; })
+   .attr('height', function(d) { return d.y1 - d.y0; })
+   .style("stroke", "black")
+   .style("fill", "#69b3a2");
+
+// Add text labels
+svg.selectAll("text")
+ .data(root.leaves())
+ .enter()
+ .append("text")
+   .attr("x", function(d) { return d.x0 + 10; })    // +10 to adjust position (more right)
+   .attr("y", function(d) { return d.y0 + 20; })    // +20 to adjust position (lower)
+   .text(function(d) { return d.data.name; })
+   .attr("font-size", "15px")
+   .attr("fill", "white");
+}).catch(function(error) {
+console.error("Error loading the data: ", error);
+});
