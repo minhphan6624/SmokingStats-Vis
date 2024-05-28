@@ -1,79 +1,63 @@
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>COS30045 - Data Visualization Project</title>
 
-    <!--CSS -->
+    <!-- CSS -->
     <link rel="stylesheet" href="styles/index.css">
 
     <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <!-- D3 library v7 -->
     <script src="https://d3js.org/d3.v7.min.js"></script>
-
 </head>
-
 <body>
-    <section class="intro">
-        <h1>Health statistics</h1>
-        <p class="text-center"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur cumque consectetur
-            quidem, minima nemo
-            aspernatur soluta, nisi commodi rerum delectus quo iusto autem quasi maiores adipisci mollitia? Ea,
-            doloribus ducimus!</p>
+    <section class="intro text-center">
+        <h1>Health Statistics</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur cumque consectetur quidem, minima nemo aspernatur soluta, nisi commodi rerum delectus quo iusto autem quasi maiores adipisci mollitia? Ea, doloribus ducimus!</p>
     </section>
 
-    <div class="vis-body container ">
-
-        <!-- Map & bar chart -->
+    <div class="vis-body container">
+        <!-- Treemap Diagram -->
         <section class="row mx-2 border border-primary p-3">
-            <h3 class="text-center">Sankey Diagram</h3>
+            <h3 class="text-center">Treemap Diagram</h3>
             <p class="text-center">Lung Cancer in comparison to other diseases in relation to smoking & vaping.</p>
-
             <!-- SVG container for the chart -->
             <div class="vis1 center-svg"></div>
         </section>
 
+        <!-- World Map + Stacked bar chart -->
         <section class="row mx-2 border border-primary p-3">
-            <h3 class="text-center"> World Map + Stacked bar chart</h3>
-            <p class="text-left"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa accusantium cumque
-                dolore unde veritatis molestiae cupiditate officia a. Fugit doloribus omnis id dolores sit a tempora
-                laborum facilis beatae blanditiis!</p>
-
+            <h3 class="text-center">World Map + Stacked Bar Chart</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa accusantium cumque dolore unde veritatis molestiae cupiditate officia a. Fugit doloribus omnis id dolores sit a tempora laborum facilis beatae blanditiis!</p>
             <div class="vis2 center-svg"></div>
             <div class="slider-container">
                 <label for="year-slider">Year: <span id="selected-year">1980</span></label>
                 <input type="range" id="year-slider" min="1980" max="2012" value="1980" step="1">
             </div>
-            <div class="dropdown-country">
-            </div>
+            <div class="dropdown-country"></div>
             <div class="vis3 center-svg"></div>
         </section>
-
     </div>
 
     <footer class="bg-dark text-white mt-4">
         <div class="container-fluid py-1">
             <div class="row">
                 <div class="col-md-6 text-left">
-                    <p>COS30045 - Data Visualizaton</p>
+                    <p>COS30045 - Data Visualization</p>
                     <p>Group 2</p>
                 </div>
             </div>
         </div>
     </footer>
 
-
-    <!-- calls javascript file over -->
+    <!-- JavaScript files -->
     <script src="scripts/index.js"></script>
-    <script src="scripts/sankey.js"></script>
-    <script src="scripts/sankeygit.js"></script>
-
+    <script src="scripts/treemap.js"></script>
     <script src="scripts/choropleths.js"></script>
     <script src="scripts/stackedBar.js"></script>
 </body>
-
 </html>
