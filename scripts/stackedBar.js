@@ -7,6 +7,7 @@ margin = ({top: 20, right: 60, bottom: 30, left: 60}) //can be further implement
     
 var selectedSex = "Total";
 var selectedCountry = "Australia";
+var formatter = d3.format(".3~s"); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
 
 d3.csv("../data/VapingTobacco.csv").then((data) => {
 
@@ -23,6 +24,36 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
     .append("option") //display options
     .text(function(d) { return d; }); //display names of options
 
+    // Create hover tooltip - https://d3-graph-gallery.com/graph/barplot_stacked_hover.html
+    var tooltip = d3.select(".vis3")
+        .append("div")
+        .style("opacity", 0)
+        .attr("class", "tooltip")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "1px")
+        .style("border-radius", "5px")
+        .style("padding", "10px");
+
+    // change tooltip based on mouseover
+    var mouseover = function(event, d) {
+        var subgroupName = d3.select(this.parentNode).datum().key;
+        var subgroupValue = formatter(d.data[subgroupName]);
+        tooltip.html(subgroupName + "<br>" + "# of People: " + subgroupValue)
+               .style("opacity", 1);
+    }
+    // change tooltip based on mousemove
+    var mousemove = function(event, d) {
+        tooltip.style("left", (event.pageX + 10) + "px")
+               .style("top", (event.pageY + 10) + "px");
+    }
+    // change tooltip based on mouseleave
+    var mouseleave = function(event, d) {
+        tooltip.style("opacity", 0);
+    }
+
+
+
     function updateChart(selectedCountry, selectedSex) {
         // Filter rows and select columns
         var filteredData = data.filter(function(d) {
@@ -30,8 +61,8 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
         }).map(function(d) {
             return {
                 Year: d.Year,
-                ObservedPersons: +d["Observed Persons"],
-                VapingObservedPersons: +d["Vaping Observed Persons"]
+                Smoking: +d["Observed Persons"],
+                Vaping: +d["Vaping Observed Persons"]
             };
         });
 
@@ -43,7 +74,7 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
 
         //Set up stack 
         var stack = d3.stack()
-        .keys(["ObservedPersons", "VapingObservedPersons"]);
+        .keys(["Smoking", "Vaping"]);
 
         //Data, stacked
         var series = stack(filteredData);
@@ -98,7 +129,10 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
             .attr("height", function (d) {
                 return yScale(d[0]) - yScale(d[1]);  // <-- Changed height value
             })
-            .attr("width", xScale.bandwidth());
+            .attr("width", xScale.bandwidth())
+            .on("mouseover", mouseover)
+            .on("mousemove", mousemove)
+            .on("mouseleave", mouseleave);
 
 
         //https://ghenshaw-work.medium.com/customizing-axes-in-d3-js-99d58863738b
@@ -111,7 +145,7 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
             .scale(yScale)
             .ticks(6)
             // .tickSize(0)
-            .tickFormat(d3.format("~s")); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
+            .tickFormat(formatter); 
 
         svg.append("g") //group x axis elements
             .attr("class", "axis") // assign class (name group)
@@ -125,7 +159,6 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
             .call(yAxis)
             .select(".domain").remove();
     }
-        
 
 
     // Event listener of dropdown list
