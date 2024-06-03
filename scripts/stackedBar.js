@@ -1,3 +1,6 @@
+//Globals to be shared between charts
+//https://stackoverflow.com/questions/46476426/how-do-i-share-a-global-variable-between-multiple-files
+
 //Width and height
 var w = 800;
 var h = 300;
@@ -5,9 +8,9 @@ var h = 300;
 //Mike Bostock Margin Convention - https://observablehq.com/@d3/margin-convention
 margin = ({top: 20, right: 60, bottom: 30, left: 60}) //can be further implemented for responsive
     
-var selectedSex = "Total";
-var selectedCountry = "Australia";
-var formatter = d3.format(".3~s"); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
+// var selectedSex = "Total";
+// var selectedCountry = "Australia";
+var formatter = d3.format(".4~s"); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
 
 //Load data from csv file
 d3.csv("../data/VapingTobacco.csv").then((data) => {
@@ -38,10 +41,13 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
 
     // change tooltip based on mouseover
     var mouseover = function(event, d) {
+        d3.select(this).transition()
+            .duration(400)
+            .style("opacity", 1);
         var subgroupName = d3.select(this.parentNode).datum().key;
         var subgroupValue = formatter(d.data[subgroupName]);
-        tooltip.html(subgroupName + "<br>" + "# of People: " + subgroupValue)
-               .style("opacity", 1);
+        tooltip.html("<strong>" + subgroupName + "</strong><br>" + "# of People: " + subgroupValue + "<br>" + "Sex: " + selectedSex + "<br>" + "Country: " + selectedCountry)
+                .style("opacity", 1);
     }
     // change tooltip based on mousemove
     var mousemove = function(event, d) {
@@ -50,22 +56,34 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
     }
     // change tooltip based on mouseleave
     var mouseleave = function(event, d) {
+        d3.select(this).transition()
+        .duration(400)
+        .style("opacity", 0.85);
         tooltip.style("opacity", 0);
     }
+    
+    // var initialData = data.filter(function(d) {
+    //     return d.Country == "Australia";
+    // }).map(function(d) {
+    //     return {
+    //         Year: d.Year,
+    //         Smoking: +d["Observed Persons"],
+    //         Vaping: +d["Vaping Observed Persons"]
+    //     };
+    // });
+    // var countryYDomain = [];
 
-    //Update chartbased on selected country and sex
-    function updateChart(selectedCountry, selectedSex) {
-        
+    function updateChart(filteredData) {
         // Filter rows and select columns
-        var filteredData = data.filter(function(d) {
-            return d.Sex == selectedSex && d.Country == selectedCountry; //filter based on selected country (Sex can be further implemented for further interactivity)
-        }).map(function(d) {
-            return {
-                Year: d.Year,
-                Smoking: +d["Observed Persons"],
-                Vaping: +d["Vaping Observed Persons"]
-            };
-        });
+        // filteredData = data.filter(function(d) {
+        //     return d.Sex == selectedSex && d.Country == selectedCountry; //filter based on selected country (Sex can be further implemented for further interactivity)
+        // }).map(function(d) {
+        //     return {
+        //         Year: d.Year,
+        //         Smoking: +d["Observed Persons"],
+        //         Vaping: +d["Vaping Observed Persons"]
+        //     };
+        // });
 
         // Sort filteredData by Year
         filteredData.sort(function(a, b) {
@@ -74,7 +92,7 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
 
         //Set up stack 
         var stack = d3.stack()
-        .keys(["Smoking", "Vaping"]);
+            .keys(["Smoking", "Vaping"]);
 
         //Data, stacked
         var series = stack(filteredData);
@@ -86,14 +104,10 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
             .padding(0.1); // Add padding between bars
 
         var yScale = d3.scaleLinear()
-            .domain([0,
-                d3.max(series, function (d) {
-                    return d3.max(d, function(d) { return d[1]; }); 
-                })
-            ])
+            .domain(countryYDomain)
             .range([h - margin.bottom, margin.top]); //range for visualisation of screen based on SVG canvas
 
-        //Easy colors accessible via a 10-step ordinal scale
+        //Easy colours accessible via a 10-step ordinal scale
         var colors = d3.scaleOrdinal(d3.schemeCategory10);
 
         //Remove previous SVG element
@@ -116,9 +130,11 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
             });
 
         // Add a rect for each data value
-        var rects = groups.selectAll("rect")
-            .data(function (d) { return d; })
-            .enter()
+        var bars = groups.selectAll("rect")
+            .data(function (d) { return d; });
+            
+        
+        bars.enter()
             .append("rect")
             .attr("x", function (d, i) {
                 return xScale(d.data.Year);
@@ -130,21 +146,22 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
                 return yScale(d[0]) - yScale(d[1]);  // <-- Changed height value
             })
             .attr("width", xScale.bandwidth())
+            .style("opacity", 0.85)
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave);
+            
+            
 
 
         //https://ghenshaw-work.medium.com/customizing-axes-in-d3-js-99d58863738b
         var xAxis = d3.axisBottom()
-        // .select(".domain").remove()
-        .scale(xScale)
-        .tickSize(0);
+                      .scale(xScale)
+                      .tickSize(0);
 
         var yAxis = d3.axisLeft()
             .scale(yScale)
             .ticks(6)
-            // .tickSize(0)
             .tickFormat(formatter); 
 
         svg.append("g") //group x axis elements
@@ -160,29 +177,65 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
             .select(".domain").remove();
     }
 
+    function updateData(selectedCountry, selectedSex) {
+        d3.select(".stacked-title").text("Smoking and Vaping in " + selectedCountry + ", " + (selectedSex == "Total" ? "All" : selectedSex + "s Only"));
+        var countryData = data.filter(function(d) {
+            return d.Country == selectedCountry;
+        }).map(function(d) {
+            return {
+                Year: d.Year,
+                Smoking: +d["Observed Persons"],
+                Vaping: +d["Vaping Observed Persons"]
+            };
+        });
+
+        var tempStack = d3.stack().keys(["Smoking", "Vaping"]);
+        var tempSeries = tempStack(countryData);
+
+        countryYDomain = ([0,
+            d3.max(tempSeries, function (d) {
+                return d3.max(d, function(d) { return d[1]; }); 
+            })
+        ]);
+
+        var filteredData = data.filter(function(d) {
+            return d.Country == selectedCountry  && d.Sex == selectedSex;
+        }).map(function(d) {
+            return {
+                Year: d.Year,
+                Smoking: +d["Observed Persons"],
+                Vaping: +d["Vaping Observed Persons"]
+            };
+        });
+
+        updateChart(filteredData);
+    }
+
 
     // Event listener of dropdown list
     d3.select("#countrySelect").on("change", function() {
-        var selectedCountry = d3.select(this).property("value");
-        updateChart(selectedCountry, selectedSex);
+        selectedCountry = d3.select(this).property("value");
+        updateData(selectedCountry, selectedSex);
     });
 
     // Event listener of buttons
     d3.select("#filter-all").on("click", function() {
         selectedSex = "Total";
-        updateChart(selectedCountry, selectedSex);
+        updateData(selectedCountry, selectedSex);
     });
 
     d3.select("#filter-male").on("click", function() {
         selectedSex = "Male";
-        updateChart(selectedCountry, selectedSex);
+        updateData(selectedCountry, selectedSex);
     });
 
     d3.select("#filter-female").on("click", function() {
         selectedSex = "Female";
-        updateChart(selectedCountry, selectedSex);
+        updateData(selectedCountry, selectedSex, 'sex');
     });
 
     // initial chart
-    updateChart(selectedCountry, selectedSex);
+    var selectedCountry = "Australia";
+    var selectedSex = "Total";
+    updateData(selectedCountry, selectedSex);
 });
