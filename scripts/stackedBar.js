@@ -9,6 +9,7 @@ var selectedSex = "Total";
 var selectedCountry = "Australia";
 var formatter = d3.format(".3~s"); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
 
+//Load data from csv file
 d3.csv("../data/VapingTobacco.csv").then((data) => {
 
     var countries = [...new Set(data.map(function(d) { return d.Country; }))];
@@ -52,9 +53,9 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
         tooltip.style("opacity", 0);
     }
 
-
-
+    //Update chartbased on selected country and sex
     function updateChart(selectedCountry, selectedSex) {
+        
         // Filter rows and select columns
         var filteredData = data.filter(function(d) {
             return d.Sex == selectedSex && d.Country == selectedCountry; //filter based on selected country (Sex can be further implemented for further interactivity)
@@ -70,7 +71,6 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
         filteredData.sort(function(a, b) {
             return d3.ascending(a.Year, b.Year);
         });
-
 
         //Set up stack 
         var stack = d3.stack()
