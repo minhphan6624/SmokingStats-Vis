@@ -1,5 +1,13 @@
+
 var w = 800;
 var h = 500;
+
+//Create SVG element
+var mapSvg = d3.select(".vis2")
+    .append("svg")
+    .attr("width", w)
+    .attr("height", h)
+    .attr("fill", "grey");
 
 //Set up projection
 var projection = d3.geoNaturalEarth1()
@@ -9,14 +17,6 @@ var projection = d3.geoNaturalEarth1()
 //Define path generator
 var path = d3.geoPath()
     .projection(projection);
-
-//Create SVG element
-var mapSvg = d3.select(".vis2")
-    .append("svg")
-    .attr("width", w)
-    .attr("height", h)
-    .attr("fill", "grey");
-
 
 // Define the zoom behavior
 // References: https://d3js.org/d3-zoom
@@ -36,10 +36,40 @@ function zoomed(event) {
 
 // Define color range
 var color = d3.scaleQuantize()
-            .range(["#fbb4ae","#b3cde3","#ccebc5","#decbe4","#fed9a6","#ffffcc","#e5d8bd","#fddaec","#f2f2f2"]);
+    .range(["#fbb4ae", "#b3cde3", "#ccebc5", "#decbe4", "#fed9a6", "#ffffcc", "#e5d8bd", "#fddaec", "#f2f2f2"]);
 
+// Dropdown box to select the datasets
 var datasetSelect = d3.select("#dataset-select");
 
+
+// --------------- Tooltip ---------------
+
+// Define the tooltip
+var tooltip = d3.select("body").append("div")
+    .attr("id", "tooltip")
+    .style("position", "absolute")
+    .style("opacity", 0)
+    .style("background-color", "white")
+    .style("border", "1px solid #ccc")
+    .style("padding", "5px")
+    .style("pointer-events", "none");
+
+//Callback function for mouse out event
+let mouseOutCallBack = function (d) {
+    d3.select(this).attr("stroke", "#000").attr("stroke-width", 0.25); // Reset border
+    tooltip.transition().duration(500).style("opacity", 0);
+
+}
+
+//Callback function for mouse move
+let mouseMoveCallBack = function (event) {
+    tooltip.style("left", (event.pageX + 5) + "px")
+        .style("top", (event.pageY - 28) + "px");
+}
+
+// --------------- Parser Functions ---------------
+
+//Parse data from cigarettes consumption csv 
 function parseCigarettesData(data) {
     var countryData = {};
     data.forEach(d => {
@@ -91,7 +121,10 @@ function parseVapingData(data) {
     });
     return countryData;
 }
-            
+
+
+// --------------- Main Rendering method ---------------
+
 //Load data from csv files and render the choropleths
 function loadDataAndRender(dataset) {
     var csvFile;
@@ -114,12 +147,12 @@ function loadDataAndRender(dataset) {
     }
 
     d3.csv(`../data/${csvFile}`).then((data) => {
-        
+
         //Get the country csv data based on using the corresponding parser functions
         var countryData = parserFunction(data);
 
         // Load in GeoJSON data
-        d3.json("scripts/worldMap.json").then(function (json) {
+        d3.json("scripts/worldMap1.json").then(function (json) {
 
             // Merge csv data and GeoJSON
             json.features.forEach(feature => {
@@ -137,21 +170,30 @@ function loadDataAndRender(dataset) {
             paths.enter()
                 .append("path")
                 .attr("d", path)
-                .attr("stroke", "lightgrey")
-                .attr("stroke-width", 1)
+                .attr("stroke", "black")
+                .attr("stroke-width", 0.25)
                 .merge(paths)
                 .attr("fill", d => {
                     var value = d.properties.values[yearRange.min]?.[dataset]; // Default year, selected dataset value
                     return value ? color(value) : "#ccc";
-                });
+                })
+                .on("mouseover", function (event, d) {
+                    d3.select(this).attr("stroke", "#000").attr("stroke-width", 1); // Highlight border
+                    tooltip.transition().duration(200).style("opacity", .9);
+                    tooltip.html(d.properties.name + "<br/>" + d.properties.values[yearRange.min]?.[dataset])
+                        .style("left", (event.pageX + 5) + "px")
+                        .style("top", (event.pageY - 28) + "px");
+                })
+                .on("mousemove", mouseMoveCallBack)
+                .on("mouseout", mouseOutCallBack);
 
             paths.exit().remove();
 
             // Update year slider
             var slider = d3.select("#year-slider");
             slider.attr("min", yearRange.min)
-                  .attr("max", yearRange.max)
-                  .attr("value", yearRange.min);
+                .attr("max", yearRange.max)
+                .attr("value", yearRange.min);
 
             var selectedYearLabel = d3.select("#selected-year"); // Select the year label associated with the label
 
@@ -165,7 +207,7 @@ function loadDataAndRender(dataset) {
             // Initial map display
             updateMap(slider.node().value);
 
-            //update map based on the selected year
+            //Update map based on the selected year
             function updateMap(selectedYear) {
 
                 //Get the current dataset that are being examined
@@ -184,7 +226,16 @@ function loadDataAndRender(dataset) {
                     .attr("fill", d => {
                         var value = d.properties.values[selectedYear]?.[selectedType];
                         return value ? color(value) : "#ccc";
-                    });
+                    })
+                    .on("mouseover", function (event, d) {
+                        d3.select(this).attr("stroke", "#000").attr("stroke-width", 1); // Highlight border
+                        tooltip.transition().duration(200).style("opacity", .9);
+                        tooltip.html(d.properties.name + "<br/>" + d.properties.values[yearRange.min]?.[dataset])
+                            .style("left", (event.pageX + 5) + "px")
+                            .style("top", (event.pageY - 28) + "px");
+                    })
+                    .on("mousemove", mouseMoveCallBack)
+                    .on("mouseout", mouseOutCallBack);
             }
         });
     });
@@ -194,6 +245,6 @@ function loadDataAndRender(dataset) {
 loadDataAndRender(datasetSelect.node().value);
 
 // Update data when a new dataset is selected
-datasetSelect.on("change", function() {
+datasetSelect.on("change", function () {
     loadDataAndRender(this.value);
 });
