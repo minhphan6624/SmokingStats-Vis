@@ -1,6 +1,8 @@
-
+//Linking data vis - https://stackoverflow.com/questions/46476426/how-do-i-share-a-global-variable-between-multiple-files
 var w = 800;
 var h = 500;
+
+var formatter = d3.format(".4~s"); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
 
 //Create SVG element
 var mapSvg = d3.select(".vis2")
@@ -34,6 +36,12 @@ function zoomed(event) {
         .attr('transform', event.transform); // Apply the transform
 }
 
+//Country click event handler
+function countryClicked(event, d) {
+    console.log(d.properties.name);
+    window.countrySe = d.properties.name;
+}
+
 // Define color range
 var color = d3.scaleQuantize()
     .range(["#fbb4ae", "#b3cde3", "#ccebc5", "#decbe4", "#fed9a6", "#ffffcc", "#e5d8bd", "#fddaec", "#f2f2f2"]);
@@ -58,7 +66,6 @@ var tooltip = d3.select("body").append("div")
 let mouseOutCallBack = function (d) {
     d3.select(this).attr("stroke", "#000").attr("stroke-width", 0.25); // Reset border
     tooltip.transition().duration(500).style("opacity", 0);
-
 }
 
 //Callback function for mouse move
@@ -87,7 +94,9 @@ function parseCigarettesData(data) {
 
 function parseTobaccoData(data) {
     var countryData = {};
-    data.forEach(d => {
+    var filteredData = data.filter(d => d.Sex === window.selectedSex);
+    console.log(window.selectedSex);
+    filteredData.forEach(d => {
         var year = +d.Year; // Convert Year to number
         var code = d["Country Code"]; // Country code remains a string
         var tobaccoValue = +d["Observed Persons"]; // Tobacco consumption
@@ -127,6 +136,7 @@ function parseVapingData(data) {
 
 //Load data from csv files and render the choropleths
 function loadDataAndRender(dataset) {
+
     var csvFile;
     var parserFunction;
     var yearRange;
@@ -139,7 +149,7 @@ function loadDataAndRender(dataset) {
     } else if (dataset === "tobacco") {
         csvFile = "tobacco.csv";
         parserFunction = parseTobaccoData;
-        yearRange = { min: 2003, max: 2022 };
+        yearRange = { min: 2000, max: 2022 };
     } else {
         csvFile = "vaping.csv";
         parserFunction = parseVapingData;
@@ -166,7 +176,7 @@ function loadDataAndRender(dataset) {
 
             // Bind data and create one path per GeoJSON feature
             var paths = mapSvg.selectAll("path").data(json.features);
-
+        
             paths.enter()
                 .append("path")
                 .attr("d", path)
@@ -185,7 +195,8 @@ function loadDataAndRender(dataset) {
                         .style("top", (event.pageY - 28) + "px");
                 })
                 .on("mousemove", mouseMoveCallBack)
-                .on("mouseout", mouseOutCallBack);
+                .on("mouseout", mouseOutCallBack)
+                .on("click", countryClicked);
 
             paths.exit().remove();
 
@@ -230,7 +241,7 @@ function loadDataAndRender(dataset) {
                     .on("mouseover", function (event, d) {
                         d3.select(this).attr("stroke", "#000").attr("stroke-width", 1); // Highlight border
                         tooltip.transition().duration(200).style("opacity", .9);
-                        tooltip.html(d.properties.name + "<br/>" + d.properties.values[yearRange.min]?.[dataset])
+                        tooltip.html(d.properties.name + "<br/>" + d.properties.values[selectedYear]?.[selectedType])
                             .style("left", (event.pageX + 5) + "px")
                             .style("top", (event.pageY - 28) + "px");
                     })
@@ -248,3 +259,5 @@ loadDataAndRender(datasetSelect.node().value);
 datasetSelect.on("change", function () {
     loadDataAndRender(this.value);
 });
+
+
