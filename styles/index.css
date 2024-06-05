@@ -31,6 +31,11 @@
     color: black;
     font-family: 'Courier New', Courier, monospace;
 }
+
+.slider-container {
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+}
 /* ----------------------------- */
 /* Stacked Bar Chart */
 .stacked-title {
@@ -66,13 +71,12 @@
     justify-content: center;
     align-items: center;
     
-    margin: 10px;
-    padding: 10px;
 
     border: 1px solid lightgrey;
     border-radius: 25px;
     box-shadow: 10px 5px 5px grey;
     background-color: white;
+    background-image: url("../img/dot_wallpaper.png");
 }
 
 .center-svg svg {
