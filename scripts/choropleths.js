@@ -196,7 +196,7 @@ function loadDataAndRender(dataset) {
         yearRange = { min: 2012, max: 2022 };
     }
 
-    d3.csv(`/DataVisProject/data/${csvFile}`).then((data) => {
+    d3.csv(`DataVisProject/data/${csvFile}`).then((data) => {
 
         //Get the country csv data based on using the corresponding parser functions
         var countryData = parserFunction(data);
