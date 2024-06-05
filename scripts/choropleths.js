@@ -39,7 +39,7 @@ function zoomed(event) {
 //Country click event handler
 function countryClicked(event, d) {
     console.log(d.properties.name);
-    window.countrySe = d.properties.name;
+    window.selectedCountry = d.properties.name;
 }
 
 // Define color range
@@ -249,6 +249,7 @@ function loadDataAndRender(dataset) {
                     .on("mouseout", mouseOutCallBack);
             }
         });
+        // setYearListener();
     });
 }
 
@@ -259,5 +260,19 @@ loadDataAndRender(datasetSelect.node().value);
 datasetSelect.on("change", function () {
     loadDataAndRender(this.value);
 });
+
+// //listen for changes to country global from choro - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
+// function setYearListener() {
+// const readyListener = () => {
+//     if (window.clickedYear) {
+//         // Set the dropdown value to window.selectedCountry - https://d3js.org/d3-selection/modifying#selection_property
+//         // d3.select("#countrySelect").property("value", window.selectedCountry);
+//         // updateData(window.selectedCountry, selectedSex);
+//         console.log(window.clickedYear);
+//     }
+//     return setTimeout(readyListener, 250);
+// };
+// readyListener();
+// }
 
 

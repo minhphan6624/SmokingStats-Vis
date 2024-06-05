@@ -69,7 +69,7 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
         console.log(clickedYear);
     }
 
-    function initializeChart() {
+    function initialiseChart() {
         // Create SVG element
         var svg = d3.select(".vis3")
             .append("svg")
@@ -84,6 +84,8 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
         svg.append("g") // group y axis elements
             .attr("class", "y-axis")
             .attr("transform", "translate(" + (margin.left) + ",0)");
+
+        updateData(selectedCountry, selectedSex);
     }
 
     function updateChart(filteredData) {
@@ -102,15 +104,15 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
         // Set up scales
         var xScale = d3.scaleBand()
             .domain(filteredData.map(function(d) { return d.Year; }))
-            .range([margin.left, w - margin.right]) // range for visualization
+            .range([margin.left, w - margin.right]) // range for visualisation
             .padding(0.1); // Add padding between bars
     
         var yScale = d3.scaleLinear()
             .domain(countryYDomain)
-            .range([h - margin.bottom, margin.top]); // range for visualization of screen based on SVG canvas
+            .range([h - margin.bottom, margin.top]); // range for visualisation of screen based on SVG canvas
     
         // Easy colours accessible via a 10-step ordinal scale
-        var colors = d3.scaleOrdinal(d3.schemeCategory10);
+        var colours = d3.scaleOrdinal(["#69b3a2", "#404080"]);
     
         // Select SVG element
         var svg = d3.select(".vis3 svg");
@@ -128,7 +130,7 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
             .append("g")
             .attr("class", "layer")
             .style("fill", function (d, i) {
-                return colors(i);
+                return colours(i);
             });
     
         groups.exit().remove();
@@ -136,14 +138,14 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
         // Create chart bars
         var bars = groups.selectAll("rect")
             .data(function(d) { return d; });
-    
+        
         // Handle entering bars
         bars.enter()
             .append("rect")
-            .attr("x", function(d) { return xScale(d.data.Year); })
+            .attr("x", function(d) { return w-(margin.right); })
             .attr("y", function(d) { return yScale(d[1]); })
             .attr("height", function(d) { return yScale(d[0]) - yScale(d[1]); })
-            .attr("width", xScale.bandwidth())
+            .attr("width", 0)
             .style("opacity", 0.85)
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
@@ -151,14 +153,24 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
             .on("click", barClicked)
             .merge(bars) // Ensure entering and updating bars are handled
             .transition() // Apply transition to entering and updating bars
-            .duration(2000)
+            .delay(function(d,i) { //transition delay per bar
+                return i/d.length * 500;
+            }) 
+            .duration(1500)
             .ease(d3.easeCubicInOut)
             .attr("x", function(d) { return xScale(d.data.Year); })
             .attr("y", function(d) { return yScale(d[1]); })
             .attr("height", function(d) { return yScale(d[0]) - yScale(d[1]); })
             .attr("width", xScale.bandwidth());
     
-        bars.exit().remove();
+        bars.exit()
+        // .transition()
+        // .delay(function(d,i) { //transition delay per bar
+        //     return i/d.length * 500;
+        // }) 
+        // .duration(500)
+        // .attr("x", w)
+        .remove();
     
         // Create x and y axes
         var xAxis = d3.axisBottom(xScale).tickSize(0);
@@ -166,15 +178,18 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
     
         svg.select(".x-axis")
             .transition()
-            .duration(2000)
             .ease(d3.easeCubicInOut)
-            .call(xAxis);
+            .duration(1000)
+            .call(xAxis)
+            .select(".domain").remove();
+
     
         svg.select(".y-axis")
             .transition()
-            .duration(2000)
             .ease(d3.easeCubicInOut)
-            .call(yAxis);
+            .duration(1000)
+            .call(yAxis)
+            .select(".domain").remove();
     }
     
 
@@ -192,6 +207,11 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
                 Vaping: +d["Vaping Observed Persons"]
             };
         });
+
+        // Check if there's data for the selected country
+        if (countryData.length == 0) {
+            d3.select(".stacked-title").text("No data available for " + selectedCountry); //update title
+        }
 
         //make series using only country to maintain y domain between sexes
         var tempStack = d3.stack().keys(["Smoking", "Vaping"]);
@@ -217,7 +237,7 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
         updateChart(filteredData);
     }
 
-    initializeChart();
+    initialiseChart();
 
     // Event listener of dropdown list
     d3.select("#countrySelect").on("change", function() {
@@ -244,12 +264,20 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
         updateData(selectedCountry, selectedSex, 'sex');
     });
 
+    setCountryListener();
+
+    //listen for changes to country global from choro - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
     function setCountryListener() {
+        let previousCountry = window.selectedCountry;
+    
         const readyListener = () => {
-            if (window.countrySe) {
-                updateData(window.countrySe, selectedSex);
+            if (window.selectedCountry && window.selectedCountry != previousCountry) {
+                // Set the dropdown value to window.selectedCountry - https://d3js.org/d3-selection/modifying#selection_property
+                d3.select("#countrySelect").property("value", window.selectedCountry);
+                updateData(window.selectedCountry, selectedSex);
+                previousCountry = window.selectedCountry; // Update the previous country
             }
-            return setTimeout(readyListener, 250);
+            setTimeout(readyListener, 250);
         };
         readyListener();
     }
