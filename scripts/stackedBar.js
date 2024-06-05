@@ -6,7 +6,7 @@ var w = 800;
 var h = 300;
 
 //Mike Bostock Margin Convention - https://observablehq.com/@d3/margin-convention
-margin = ({top: 20, right: 60, bottom: 30, left: 60});
+margin = ({top: 20, right: 150, bottom: 30, left: 60});
     
 var formatter = d3.format(".4~s"); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
 
@@ -114,7 +114,12 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
     
         // Select SVG element
         var svg = d3.select(".vis3 svg");
-    
+
+        svg.append("circle").attr("cx",700).attr("cy",130).attr("r", 6).style("fill", "#69b3a2")
+        svg.append("circle").attr("cx",700).attr("cy",160).attr("r", 6).style("fill", "#404080")
+        svg.append("text").attr("x", 715).attr("y", 130).text("Smoking").style("font-size", "15px").attr("alignment-baseline","middle")
+        svg.append("text").attr("x", 715).attr("y", 160).text("Vaping").style("font-size", "15px").attr("alignment-baseline","middle")
+            
         // Add a group for each row of data
         var groups = svg.selectAll("g.layer")
             .data(series, function(d) { return d.key; });
@@ -248,6 +253,7 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
         };
         readyListener();
     }
+    
 
     window.selectedSex = selectedSex;
     updateData(selectedCountry, selectedSex);

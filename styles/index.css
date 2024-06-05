@@ -2,11 +2,14 @@
 .intro {
     /* background: linear-gradient(rgba(0, 0, 0, 0.4), #51493f); */
     background-image: url("../img/dot_wallpaper.png");
+    background-repeat: repeat-x;
+
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    height: 39vh;
-
+    height: 15vh;
+    background: rgba(0, 128, 0, 0.3);
+ 
     color: black;
     font-family: 'Courier New', Courier, monospace;
     display: flex;
@@ -15,6 +18,7 @@
     align-items: center;
     margin-bottom: 10px;
 }
+
 
 /* World Map + Stacked Bar Chart */
 .title-header {
@@ -25,6 +29,7 @@
 .header-text {
     color: black;
     font-family: 'Courier New', Courier, monospace;
+    width: 800px;
 }
 
 .dropdown {
@@ -62,6 +67,8 @@
     margin: auto;
     padding: 10px;
     background-image: url("../img/dot_wallpaper.png");
+    background-repeat: repeat-x;
+
 }
 
 /* Visualization alignment */
@@ -71,12 +78,16 @@
     justify-content: center;
     align-items: center;
     
-
+    margin: 8px;
+    padding: 8px;
+    
     border: 1px solid lightgrey;
     border-radius: 25px;
     box-shadow: 10px 5px 5px grey;
     background-color: white;
     background-image: url("../img/dot_wallpaper.png");
+    background-repeat: repeat-x;
+  
 }
 
 .center-svg svg {
@@ -87,8 +98,71 @@
     background-color: white;
 }
 
-.col-md-6 {
-    color: white;
+.container {
+    background-image: url("../img/dot_wallpaper.png");
+}
+
+.slider-container
+{
+    border: solid;
+    border-width: 1px;
+    border-color: grey;
+    border-radius: 10px;
+    padding: 5px;
+    background-color: rgb(184, 220, 180);
+    width: 600px;
+}
+
+/*https://www.w3schools.com/howto/howto_js_rangeslider.asp*/
+#year-slider {
+    width: 100%;
+    height: 15px;
+    border-radius: 5px;  
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    background: #ffffff; /* Change this to your desired color */
+    appearance: none;
+}
+
+#year-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    background: #000000; /* Change this to your desired thumb color */
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+#year-slider::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    background: #4CAF50; /* Change this to your desired thumb color */
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+
+#filter-all {
+    border-radius: 10px;
+    border-width: 1px;
+}
+
+#filter-male {
+    border-radius: 10px;
+    border-width: 1px;
+    background-color: #b8cce4;
+   
+}
+
+#filter-female {
+    border-radius: 10px;
+    border-width: 1px;
+    background-color: #fcb4ac;
+}
+
+.footer {
+    background: rgba(0, 128, 0, 0.3);
     font-family: 'Courier New', Courier, monospace;
+    color: #000;
 }
 
