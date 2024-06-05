@@ -36,12 +36,6 @@ function zoomed(event) {
         .attr('transform', event.transform); // Apply the transform
 }
 
-//Country click event handler
-function countryClicked(event, d) {
-    console.log(d.properties.name);
-    window.selectedCountry = d.properties.name;
-}
-
 // Define color range
 var color = d3.scaleQuantize()
     .range(["#fbb4ae", "#b3cde3", "#ccebc5", "#decbe4", "#fed9a6", "#ffffcc", "#e5d8bd", "#fddaec", "#f2f2f2"]);
@@ -63,8 +57,10 @@ var tooltip = d3.select("body").append("div")
     .style("pointer-events", "none");
 
 //Callback function for mouse out event
-let mouseOutCallBack = function (d) {
-    d3.select(this).attr("stroke", "#000").attr("stroke-width", 0.25); // Reset border
+let mouseOutCallBack = function (event, d) {
+    if (d != lastClickedCountry) { // Check country is not the last clicked country
+        d3.select(this).attr("stroke", "black").attr("stroke-width", 0.25); // Reset border
+    }
     tooltip.transition().duration(500).style("opacity", 0);
 }
 
@@ -236,7 +232,12 @@ function loadDataAndRender(dataset) {
                 })
                 .on("mousemove", mouseMoveCallBack)
                 .on("mouseout", mouseOutCallBack)
-                .on("click", countryClicked);
+                .on("click", function (event, d) {
+                    mapSvg.selectAll('path').attr("stroke-width", 0.25); // reset all paths
+                    d3.select(this).attr("stroke", "#000").attr("stroke-width", 1); // Highlight border of clicked country
+                    lastClickedCountry = d; // Store the clicked country
+                    window.selectedCountry = d.properties.name; // Store the selected country for stacked
+                });
 
             paths.exit().remove();
 
@@ -304,7 +305,7 @@ datasetSelect.on("change", function () {
     loadDataAndRender(this.value);
 });
 
-// //listen for changes to country global from choro - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
+// //listen for changes to year global from stacked - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
 // function setYearListener() {
 // const readyListener = () => {
 //     if (window.clickedYear) {

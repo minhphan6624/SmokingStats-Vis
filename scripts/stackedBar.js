@@ -15,6 +15,8 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
 
     // initial chart and values
     var selectedCountry = "Australia";
+    window.selectedCountry = selectedCountry;
+    lastClickedCountry = selectedCountry;
     var selectedSex = "Total";
 
     var countries = [...new Set(data.map(function(d) { return d.Country; }))];
