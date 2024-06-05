@@ -44,6 +44,9 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+
+    margin: auto;
+    padding: 10px;
 }
 
 /* Visualization alignment */
@@ -52,8 +55,17 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    margin: 10px;
+    padding: 10px;
+
+    border: 1px solid lightgrey;
+    border-radius: 25px;
+    box-shadow: 10px 5px 5px grey;
 }
 
 .center-svg svg {
+
+    border: 1px solid black;
     display: block;
 }

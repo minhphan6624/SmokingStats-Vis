@@ -1,6 +1,6 @@
 //Linking data vis - https://stackoverflow.com/questions/46476426/how-do-i-share-a-global-variable-between-multiple-files
-var w = 800;
-var h = 500;
+var w = 1000;
+var h = 600;
 
 var formatter = d3.format(".4~s"); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
 
@@ -13,8 +13,8 @@ var mapSvg = d3.select(".vis2")
 
 //Set up projection
 var projection = d3.geoNaturalEarth1()
-    .translate([w / 2, h / 2])
-    .scale(150);
+    .translate([w / 2 - 10, h / 2 + 25])
+    .scale(180);
 
 //Define path generator
 var path = d3.geoPath()
@@ -176,7 +176,7 @@ function loadDataAndRender(dataset) {
 
             // Bind data and create one path per GeoJSON feature
             var paths = mapSvg.selectAll("path").data(json.features);
-        
+
             paths.enter()
                 .append("path")
                 .attr("d", path)
