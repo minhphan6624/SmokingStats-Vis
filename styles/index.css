@@ -70,8 +70,6 @@ body {
     
     margin: auto;
     padding: 10px;
-    
-    background-repeat: repeat-x;
 
 }
 
@@ -95,22 +93,34 @@ body {
 }
 
 .center-svg svg {
-
     border: 1px solid rgb(155, 155, 155);
     border-radius: 25px;
     display: block;
     background-color: white;
+
+    margin: auto;
 }
 
+/* --------------- Visualization 2 Styling --------------- */
+/* General styling */
+.vis2 {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Year slider styles */
 .slider-container
 {
     border: solid;
     border-width: 1px;
     border-color: grey;
     border-radius: 10px;
-    padding: 5px;
+    
     background-color: rgb(208, 236, 196);
     width: 600px;
+
+    padding: 5px;
+    margin: 10px;
 }
 
 /*https://www.w3schools.com/howto/howto_js_rangeslider.asp*/
@@ -141,7 +151,8 @@ body {
     border-radius: 50%;
 }
 
-
+/* --------------- Visualization 3 Styling --------------- */
+/* Sex filter buttons */
 #filter-all {
     border-radius: 10px;
     border-width: 1px;

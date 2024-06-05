@@ -74,6 +74,46 @@ let mouseMoveCallBack = function (event) {
         .style("top", (event.pageY - 28) + "px");
 }
 
+function createLegend(colorScale) {
+    var legendWidth = 300;
+    var legendHeight = 10;
+    var legendPadding = 10;
+    var legendRectSize = 18;
+    var legendSpacing = 4;
+
+    // Remove any existing legend
+    mapSvg.selectAll(".legend").remove();
+
+    var legendSvg = mapSvg.append("g")
+        .attr("class", "legend")
+        .attr("transform", `translate(${w - legendWidth - 20}, 20)`);
+
+    var legendData = colorScale.range().map(d => {
+        var extent = colorScale.invertExtent(d);
+        if (!extent[0]) extent[0] = colorScale.domain()[0];
+        if (!extent[1]) extent[1] = colorScale.domain()[1];
+        return extent;
+    });
+
+    legendData.forEach((d, i) => {
+        legendSvg.append("rect")
+            .attr("x", i * (legendRectSize + legendSpacing))
+            .attr("y", 0)
+            .attr("width", legendRectSize)
+            .attr("height", legendHeight)
+            .style("fill", colorScale(d[0]));
+
+        legendSvg.append("text")
+            .attr("x", i * (legendRectSize + legendSpacing) + legendRectSize / 2)
+            .attr("y", legendHeight + legendPadding)
+            .attr("dy", "0.8em")
+            .style("text-anchor", "middle")
+            .text(d3.format(".2s")(d[0]));
+    });
+}
+
+
+
 // --------------- Parser Functions ---------------
 
 //Parse data from cigarettes consumption csv 
@@ -156,7 +196,7 @@ function loadDataAndRender(dataset) {
         yearRange = { min: 2012, max: 2022 };
     }
 
-    d3.csv(`../data/${csvFile}`).then((data) => {
+    d3.csv(`/data/${csvFile}`).then((data) => {
 
         //Get the country csv data based on using the corresponding parser functions
         var countryData = parserFunction(data);
@@ -249,8 +289,11 @@ function loadDataAndRender(dataset) {
                     .on("mouseout", mouseOutCallBack);
             }
         });
-        // setYearListener();
+    
     });
+    // Create or update legend
+    createLegend(color);
+
 }
 
 // Load initial data
