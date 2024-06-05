@@ -1,14 +1,14 @@
 /* Styling for introduction section */
 .intro {
     /* background: linear-gradient(rgba(0, 0, 0, 0.4), #51493f); */
-    background-image: url("../img/smokebg.jpg");
+    background-image: url("../img/dot_wallpaper.png");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     height: 39vh;
 
-    color: darkorange;
-
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,37 +16,47 @@
     margin-bottom: 10px;
 }
 
-.sankey {
-    .node rect {
-        cursor: move;
-        fill-opacity: .9;
-        shape-rendering: crispEdges;
-    }
-
-    .node text {
-        pointer-events: none;
-        text-shadow: 0 1px 0 #fff;
-    }
-
-    .link {
-        fill: none;
-        stroke: #000;
-        stroke-opacity: .2;
-    }
-
-    .link:hover {
-        stroke-opacity: .5;
-    }
+/* World Map + Stacked Bar Chart */
+.title-header {
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
 }
 
+.header-text {
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.dropdown {
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+}
+/* ----------------------------- */
+/* Stacked Bar Chart */
+.stacked-title {
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.dropdown-country {
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.stacked-buttons {
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+}
+/* ----------------------------- */
 .vis-body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-
+    
     margin: auto;
     padding: 10px;
+    background-image: url("../img/dot_wallpaper.png");
 }
 
 /* Visualization alignment */
@@ -55,17 +65,26 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
+    
     margin: 10px;
     padding: 10px;
 
     border: 1px solid lightgrey;
     border-radius: 25px;
     box-shadow: 10px 5px 5px grey;
+    background-color: white;
 }
 
 .center-svg svg {
 
-    border: 1px solid black;
+    border: 1px solid rgb(155, 155, 155);
+    border-radius: 25px;
     display: block;
+    background-color: white;
 }
+
+.col-md-6 {
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+}
+

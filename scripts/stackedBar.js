@@ -147,6 +147,7 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
             .merge(bars) // Ensure entering and updating bars are handled
             .transition() // Apply transition to entering and updating bars
             .duration(2000)
+            .ease(d3.easeCubicInOut)
             .attr("x", function(d) { return xScale(d.data.Year); })
             .attr("y", function(d) { return yScale(d[1]); })
             .attr("height", function(d) { return yScale(d[0]) - yScale(d[1]); })
@@ -161,11 +162,13 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
         svg.select(".x-axis")
             .transition()
             .duration(2000)
+            .ease(d3.easeCubicInOut)
             .call(xAxis);
     
         svg.select(".y-axis")
             .transition()
             .duration(2000)
+            .ease(d3.easeCubicInOut)
             .call(yAxis);
     }
     
