@@ -12,7 +12,7 @@ body {
     background-position: center;
     background-attachment: fixed;
     height: 15vh;
-    background: rgba(0, 128, 0, 0.3);
+    background: rgba(208, 236, 196);
  
     color: black;
     font-family: 'Courier New', Courier, monospace;
@@ -70,7 +70,7 @@ body {
     
     margin: auto;
     padding: 10px;
-    background-image: url("../img/dot_wallpaper.png");
+    
     background-repeat: repeat-x;
 
 }
@@ -89,7 +89,7 @@ body {
     border-radius: 25px;
     box-shadow: 10px 5px 5px grey;
     background-color: white;
-    background-image: url("../img/dot_wallpaper.png");
+    
     background-repeat: repeat-x;
   
 }
@@ -109,7 +109,7 @@ body {
     border-color: grey;
     border-radius: 10px;
     padding: 5px;
-    background-color: rgb(184, 220, 180);
+    background-color: rgb(208, 236, 196);
     width: 600px;
 }
 
@@ -161,7 +161,7 @@ body {
 }
 
 .footer {
-    background: rgba(0, 128, 0, 0.3);
+    background: rgba(208, 236, 196);
     font-family: 'Courier New', Courier, monospace;
     color: #000;
 }
