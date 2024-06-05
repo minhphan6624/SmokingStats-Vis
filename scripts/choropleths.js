@@ -183,15 +183,15 @@ function loadDataAndRender(dataset) {
 
     //Select file, parser function and year range according to the dropdown
     if (dataset === "cigarettes") {
-        csvFile = "data/consumption-per-smoker-per-day.csv";
+        csvFile = "/data/consumption-per-smoker-per-day.csv";
         parserFunction = parseCigarettesData;
         yearRange = { min: 1980, max: 2012 };
     } else if (dataset === "tobacco") {
-        csvFile = "data/tobacco.csv";
+        csvFile = "/data/tobacco.csv";
         parserFunction = parseTobaccoData;
         yearRange = { min: 2000, max: 2022 };
     } else {
-        csvFile = "data/vaping.csv";
+        csvFile = "/data/vaping.csv";
         parserFunction = parseVapingData;
         yearRange = { min: 2012, max: 2022 };
     }
