@@ -22,12 +22,12 @@ SWE,Sweden,Female,2018,1.5,62778.195
 SWE,Sweden,Female,2020,0.8,34020.744
 SWE,Sweden,Female,2021,0.8,34251.928
 SWE,Sweden,Female,2022,1.8,77704.128
-KOR,Korea,Female,2019,1,226706.23
-KOR,Korea,Female,2020,0.8,182197.168
-KOR,Korea,Female,2021,0.9,205815.564
-KOR,Korea,Male,2019,4.3,971965.464
-KOR,Korea,Male,2020,4.3,976491.085
-KOR,Korea,Male,2021,4.2,957666.486
+KOR,South Korea,Female,2019,1,226706.23
+KOR,South Korea,Female,2020,0.8,182197.168
+KOR,South Korea,Female,2021,0.9,205815.564
+KOR,South Korea,Male,2019,4.3,971965.464
+KOR,South Korea,Male,2020,4.3,976491.085
+KOR,South Korea,Male,2021,4.2,957666.486
 NZL,New Zealand,Male,2013,0.1,1706.21
 NZL,New Zealand,Male,2016,1.7,31514.6
 NZL,New Zealand,Male,2018,4.8,93324.48
@@ -45,7 +45,7 @@ FRA,France,Total,2021,5,2791173.2
 ESP,Spain,Total,2018,1.5,596788.545
 ESP,Spain,Total,2020,1.8,729633.132
 ESP,Spain,Total,2022,2.2,902560.846
-SVK,Slovak Republic,Female,2019,1,23715.57
+SVK,Slovakia,Female,2019,1,23715.57
 AUS,Australia,Female,2016,0.6,59776.986
 AUS,Australia,Female,2019,1.5,156931.89
 EST,Estonia,Male,2012,1.9,9710.178
@@ -177,7 +177,7 @@ FRA,France,Female,2017,2.1,599991.903
 FRA,France,Female,2018,3,861638.82
 FRA,France,Female,2019,3.4,981522.234
 FRA,France,Female,2021,4.4,1282404.464
-SVK,Slovak Republic,Total,2019,1.2,55119.192
+SVK,Slovakia,Total,2019,1.2,55119.192
 GBR,United Kingdom,Total,2014,3.7,1968001.436
 GBR,United Kingdom,Total,2015,4.5,2411066.025
 GBR,United Kingdom,Total,2016,5.6,3022388.432
@@ -302,9 +302,9 @@ CZE,Czechia,Male,2020,6.1,268129.587
 CZE,Czechia,Male,2021,8.8,379229.84
 PRT,Portugal,Total,2014,1,89049.32
 PRT,Portugal,Total,2019,1.6,143277.088
-KOR,Korea,Total,2019,2.6,1178235.292
-KOR,Korea,Total,2020,2.6,1183789.594
-KOR,Korea,Total,2021,2.5,1140031.05
+KOR,South Korea,Total,2019,2.6,1178235.292
+KOR,South Korea,Total,2020,2.6,1183789.594
+KOR,South Korea,Total,2021,2.5,1140031.05
 EST,Estonia,Total,2012,1.2,13397.832
 EST,Estonia,Total,2014,5.8,64132.572
 EST,Estonia,Total,2016,3.8,41923.994
@@ -355,7 +355,7 @@ ISR,Israel,Total,2019,1.5,97575.54
 LUX,Luxembourg,Female,2019,1.2,3116.592
 AUS,Australia,Total,2016,0.9,176564.79
 AUS,Australia,Total,2019,2.1,432767.16
-SVK,Slovak Republic,Male,2019,1.3,28882.204
+SVK,Slovakia,Male,2019,1.3,28882.204
 IRL,Ireland,Total,2015,3,110582.46
 IRL,Ireland,Total,2016,3,112023.39
 IRL,Ireland,Total,2017,4,151418.64
