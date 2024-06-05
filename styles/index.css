@@ -1,3 +1,7 @@
+body {
+    background-image: url("../img/dot_wallpaper.png");
+}
+
 /* Styling for introduction section */
 .intro {
     /* background: linear-gradient(rgba(0, 0, 0, 0.4), #51493f); */
@@ -96,10 +100,6 @@
     border-radius: 25px;
     display: block;
     background-color: white;
-}
-
-.container {
-    background-image: url("../img/dot_wallpaper.png");
 }
 
 .slider-container
