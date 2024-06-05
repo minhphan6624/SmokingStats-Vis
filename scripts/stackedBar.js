@@ -69,99 +69,106 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
         console.log(clickedYear);
     }
 
-    function updateChart(filteredData) {
-        // Sort filteredData by Year
-        filteredData.sort(function(a, b) {
-            return d3.ascending(a.Year, b.Year);
-        });
-
-        //Set up stack 
-        var stack = d3.stack()
-            .keys(["Smoking", "Vaping"]);
-
-        //Data, stacked
-        var series = stack(filteredData);
-
-        //Set up scales
-        var xScale = d3.scaleBand()
-            .domain(filteredData.map(function(d) { return d.Year; }))
-            .range([margin.left, w - margin.right]) //range for visualisation
-            .padding(0.1); // Add padding between bars
-
-        var yScale = d3.scaleLinear()
-            .domain(countryYDomain)
-            .range([h - margin.bottom, margin.top]); //range for visualisation of screen based on SVG canvas
-
-        //Easy colours accessible via a 10-step ordinal scale
-        var colors = d3.scaleOrdinal(d3.schemeCategory10);
-
-        //Remove previous SVG element
-        d3.select(".vis3 svg").remove();
-
-        //Create SVG element
+    function initializeChart() {
+        // Create SVG element
         var svg = d3.select(".vis3")
             .append("svg")
             .attr("width", w)
             .attr("height", h);
 
+        // Create x and y axes containers
+        svg.append("g") // group x axis elements
+            .attr("class", "x-axis")
+            .attr("transform", "translate(0," + (h - margin.bottom) + ")");
+
+        svg.append("g") // group y axis elements
+            .attr("class", "y-axis")
+            .attr("transform", "translate(" + (margin.left) + ",0)");
+    }
+
+    function updateChart(filteredData) {
+        // Sort filteredData by Year
+        filteredData.sort(function(a, b) {
+            return d3.ascending(a.Year, b.Year);
+        });
+    
+        // Set up stack
+        var stack = d3.stack()
+            .keys(["Smoking", "Vaping"]);
+    
+        // Data, stacked
+        var series = stack(filteredData);
+    
+        // Set up scales
+        var xScale = d3.scaleBand()
+            .domain(filteredData.map(function(d) { return d.Year; }))
+            .range([margin.left, w - margin.right]) // range for visualization
+            .padding(0.1); // Add padding between bars
+    
+        var yScale = d3.scaleLinear()
+            .domain(countryYDomain)
+            .range([h - margin.bottom, margin.top]); // range for visualization of screen based on SVG canvas
+    
+        // Easy colours accessible via a 10-step ordinal scale
+        var colors = d3.scaleOrdinal(d3.schemeCategory10);
+    
+        // Select SVG element
+        var svg = d3.select(".vis3 svg");
+    
         // Add a group for each row of data
-        var groups = svg.selectAll("g")
-            .data(series)
-            .enter()
+        var groups = svg.selectAll("g.layer")
+            .data(series, function(d) { return d.key; });
+    
+        groups.enter()
             .append("g")
+            .attr("class", "layer")
             .style("fill", function (d, i) {
                 return colors(i);
             });
-
-        // create chart bars
+    
+        groups.exit().remove();
+    
+        // Create chart bars
         var bars = groups.selectAll("rect")
-            .data(function (d) { return d; });
-            
-        // Add a rect for each data value
+            .data(function(d) { return d; });
+    
+        // Handle entering bars
         bars.enter()
             .append("rect")
-            .attr("x", function (d, i) {
-                return xScale(d.data.Year); // set x position based on year
-            })
-            .attr("y", function (d) {
-                return yScale(d[1]);  // set y position based on value
-            })
-            .attr("height", function (d) {
-                return yScale(d[0]) - yScale(d[1]);  // set height based on value
-            })
-            .attr("width", xScale.bandwidth()) 
+            .attr("x", function(d) { return xScale(d.data.Year); })
+            .attr("y", function(d) { return yScale(d[1]); })
+            .attr("height", function(d) { return yScale(d[0]) - yScale(d[1]); })
+            .attr("width", xScale.bandwidth())
             .style("opacity", 0.85)
             .on("mouseover", mouseover)
             .on("mousemove", mousemove)
             .on("mouseleave", mouseleave)
-            .on("click", barClicked);
-            
-            
-
-
-        //https://ghenshaw-work.medium.com/customizing-axes-in-d3-js-99d58863738b
-        //Create x and y axis - reducing ink
-        var xAxis = d3.axisBottom()
-                        .scale(xScale)
-                        .tickSize(0);
-
-        var yAxis = d3.axisLeft()
-            .scale(yScale)
-            .ticks(6)
-            .tickFormat(formatter); 
-
-        svg.append("g") //group x axis elements
-            .attr("class", "axis") // assign class (name group)
-            .attr("transform", "translate(0," + (h - margin.bottom) + ")") //move x axis to bottom of SVG
-            .call(xAxis)
-            .select(".domain").remove();
-
-        svg.append("g") //group y axis elements
-            .attr("class", "axis") // assign class (name group)
-            .attr("transform", "translate(" + (margin.left) + ",0)") //move y axis to left of SVG
-            .call(yAxis)
-            .select(".domain").remove();
+            .on("click", barClicked)
+            .merge(bars) // Ensure entering and updating bars are handled
+            .transition() // Apply transition to entering and updating bars
+            .duration(2000)
+            .attr("x", function(d) { return xScale(d.data.Year); })
+            .attr("y", function(d) { return yScale(d[1]); })
+            .attr("height", function(d) { return yScale(d[0]) - yScale(d[1]); })
+            .attr("width", xScale.bandwidth());
+    
+        bars.exit().remove();
+    
+        // Create x and y axes
+        var xAxis = d3.axisBottom(xScale).tickSize(0);
+        var yAxis = d3.axisLeft(yScale).ticks(6).tickFormat(formatter);
+    
+        svg.select(".x-axis")
+            .transition()
+            .duration(2000)
+            .call(xAxis);
+    
+        svg.select(".y-axis")
+            .transition()
+            .duration(2000)
+            .call(yAxis);
     }
+    
 
     // update vis based on user selections - country and sex
     function updateData(selectedCountry, selectedSex) {
@@ -202,6 +209,7 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
         updateChart(filteredData);
     }
 
+    initializeChart();
 
     // Event listener of dropdown list
     d3.select("#countrySelect").on("change", function() {
@@ -228,18 +236,15 @@ d3.csv("../data/VapingTobacco.csv").then((data) => {
         updateData(selectedCountry, selectedSex, 'sex');
     });
 
-setCountryListener();
-
-
-function setCountryListener() {
-  const readyListener = () => {
-    if (window.countrySe) {
-        updateData(window.countrySe, selectedSex);
+    function setCountryListener() {
+        const readyListener = () => {
+            if (window.countrySe) {
+                updateData(window.countrySe, selectedSex);
+            }
+            return setTimeout(readyListener, 250);
+        };
+        readyListener();
     }
-    return setTimeout(readyListener, 250);
-  };
-  readyListener();
-}
 
     window.selectedSex = selectedSex;
     updateData(selectedCountry, selectedSex);
