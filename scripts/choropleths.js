@@ -183,20 +183,20 @@ function loadDataAndRender(dataset) {
 
     //Select file, parser function and year range according to the dropdown
     if (dataset === "cigarettes") {
-        csvFile = "consumption-per-smoker-per-day.csv";
+        csvFile = "/DataVisProject/data/consumption-per-smoker-per-day.csv";
         parserFunction = parseCigarettesData;
         yearRange = { min: 1980, max: 2012 };
     } else if (dataset === "tobacco") {
-        csvFile = "tobacco.csv";
+        csvFile = "/DataVisProject/data/tobacco.csv";
         parserFunction = parseTobaccoData;
         yearRange = { min: 2000, max: 2022 };
     } else {
-        csvFile = "vaping.csv";
+        csvFile = "/DataVisProject/data/vaping.csv";
         parserFunction = parseVapingData;
         yearRange = { min: 2012, max: 2022 };
     }
 
-    d3.csv(`/DataVisProject/data/${csvFile}`).then((data) => {
+    d3.csv(csvFile).then((data) => {
 
         //Get the country csv data based on using the corresponding parser functions
         var countryData = parserFunction(data);
