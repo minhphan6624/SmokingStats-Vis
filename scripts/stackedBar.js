@@ -10,28 +10,16 @@ margin = ({top: 20, right: 150, bottom: 30, left: 60});
     
 var formatter = d3.format(".4~s"); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
 
-//Load data from csv file
-d3.csv("data/VapingTobacco.csv").then((data) => {
+// Chart colours
+var colours = d3.scaleOrdinal(["#69b3a2", "#404080"]);
 
-    // initial chart and values
-    var selectedCountry = "Australia";
-    window.selectedCountry = selectedCountry;
-    lastClickedCountry = selectedCountry;
-    var selectedSex = "Total";
+// initial chart and values
+var selectedCountry = "Australia";
+window.selectedCountry = selectedCountry;
+lastClickedCountry = selectedCountry;
+var selectedSex = "Total";
 
-    var countries = [...new Set(data.map(function(d) { return d.Country; }))];
-    countries.sort();
-
-    // Create dropdown list --- https://stackoverflow.com/questions/42209058/making-a-drop-down-menu-from-csv-data-in-js
-    var dropdown = d3.select(".dropdown-country")
-    .append("select") //html select element
-    .attr("id", "countrySelect")
-    .selectAll("option") // add to countries list
-    .data(countries) // bind to option
-    .enter()
-    .append("option") //display options
-    .text(function(d) { return d; }); //display names of options
-
+// --------------- Tooltip ---------------
     // Create hover tooltip - https://d3-graph-gallery.com/graph/barplot_stacked_hover.html
     var tooltip = d3.select(".vis3")
         .append("div")
@@ -65,12 +53,31 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
         .style("opacity", 0.85);
         tooltip.style("opacity", 0);
     }
+
     function barClicked(event, d) {
         // Get the year of the clicked bar
         window.clickedYear = d.data.Year;
         console.log(clickedYear);
     }
 
+//Load data from csv file
+d3.csv("data/VapingTobacco.csv").then((data) => {
+
+    var countries = [...new Set(data.map(function(d) { return d.Country; }))];
+    countries.sort();
+
+    // Create dropdown list --- https://stackoverflow.com/questions/42209058/making-a-drop-down-menu-from-csv-data-in-js
+    var dropdown = d3.select(".dropdown-country")
+    .append("select") //html select element
+    .attr("id", "countrySelect")
+    .selectAll("option") // add to countries list
+    .data(countries) // bind to option
+    .enter()
+    .append("option") //display options
+    .text(function(d) { return d; }); //display names of options
+
+    
+    // --------------- Initial Chart ---------------
     function initialiseChart() {
         // Create SVG element
         var svg = d3.select(".vis3")
@@ -90,6 +97,7 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
         updateData(selectedCountry, selectedSex);
     }
 
+    // --------------- Update Chart ---------------
     function updateChart(filteredData) {
         // Sort filteredData by Year
         filteredData.sort(function(a, b) {
@@ -113,16 +121,14 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
             .domain(countryYDomain)
             .range([h - margin.bottom, margin.top]); // range for visualisation of screen based on SVG canvas
     
-        // Easy colours accessible via a 10-step ordinal scale
-        var colours = d3.scaleOrdinal(["#69b3a2", "#404080"]);
-    
+
         // Select SVG element
         var svg = d3.select(".vis3 svg");
 
-        svg.append("circle").attr("cx",700).attr("cy",130).attr("r", 6).style("fill", "#69b3a2")
-        svg.append("circle").attr("cx",700).attr("cy",160).attr("r", 6).style("fill", "#404080")
-        svg.append("text").attr("x", 715).attr("y", 130).text("Smoking").style("font-size", "15px").attr("alignment-baseline","middle")
-        svg.append("text").attr("x", 715).attr("y", 160).text("Vaping").style("font-size", "15px").attr("alignment-baseline","middle")
+        svg.append("circle").attr("cx", w-margin.left*2).attr("cy",h/2-15).attr("r", 6).style("fill", colours(0))
+        svg.append("circle").attr("cx", w-margin.left*2).attr("cy",h/2+15).attr("r", 6).style("fill", colours(1))
+        svg.append("text").attr("x", w-margin.left*2+10).attr("y", h/2-14).text("Smoking").style("font-size", "15px").attr("alignment-baseline","middle")
+        svg.append("text").attr("x", w-margin.left*2+10).attr("y", h/2+16).text("Vaping").style("font-size", "15px").attr("alignment-baseline","middle")
             
         // Add a group for each row of data
         var groups = svg.selectAll("g.layer")
@@ -154,25 +160,23 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
             .on("mouseleave", mouseleave)
             .on("click", barClicked)
             .merge(bars) // Ensure entering and updating bars are handled
-            .transition() // Apply transition to entering and updating bars
-            .delay(function(d,i) { //transition delay per bar
-                return i/d.length * 500;
-            }) 
-            .duration(1500)
-            .ease(d3.easeCubicInOut)
+            .transition("add") // Apply transition to entering and updating bars
+            .duration(1000)
+            .ease(d3.easeCubicOut)
             .attr("x", function(d) { return xScale(d.data.Year); })
             .attr("y", function(d) { return yScale(d[1]); })
             .attr("height", function(d) { return yScale(d[0]) - yScale(d[1]); })
             .attr("width", xScale.bandwidth());
     
         bars.exit()
-        // .transition()
-        // .delay(function(d,i) { //transition delay per bar
-        //     return i/d.length * 500;
-        // }) 
-        // .duration(500)
-        // .attr("x", w)
-        .remove();
+            .transition("exit")
+            .duration(1000)
+            .style("fill", "white")
+            .attr("opacity", 0)
+            .ease(d3.easeCubicOut)
+            .attr("x", w-margin.right)
+            .attr("width", 0)
+            .remove();
     
         // Create x and y axes
         var xAxis = d3.axisBottom(xScale).tickSize(0);
@@ -181,7 +185,7 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
         svg.select(".x-axis")
             .transition()
             .ease(d3.easeCubicInOut)
-            .duration(1000)
+            .duration(100)
             .call(xAxis)
             .select(".domain").remove();
 
