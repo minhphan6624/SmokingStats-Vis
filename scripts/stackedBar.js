@@ -85,13 +85,18 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
             .attr("width", w)
             .attr("height", h);
 
+        // Add groups for main bar chart
+        var g0 = svg.append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
         // Create x and y axes containers
         svg.append("g") // group x axis elements
-            .attr("class", "x-axis")
+            .attr("class", "axis x-axis")
             .attr("transform", "translate(0," + (h - margin.bottom) + ")");
 
         svg.append("g") // group y axis elements
-            .attr("class", "y-axis")
+            .attr("class", "axis y-axis")
             .attr("transform", "translate(" + (margin.left) + ",0)");
 
         updateData(selectedCountry, selectedSex);
@@ -121,10 +126,10 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
             .domain(countryYDomain)
             .range([h - margin.bottom, margin.top]); // range for visualisation of screen based on SVG canvas
     
-
         // Select SVG element
         var svg = d3.select(".vis3 svg");
 
+        //legend
         svg.append("circle").attr("cx", w-margin.left*2).attr("cy",h/2-15).attr("r", 6).style("fill", colours(0))
         svg.append("circle").attr("cx", w-margin.left*2).attr("cy",h/2+15).attr("r", 6).style("fill", colours(1))
         svg.append("text").attr("x", w-margin.left*2+10).attr("y", h/2-14).text("Smoking").style("font-size", "15px").attr("alignment-baseline","middle")
@@ -140,64 +145,74 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
             .style("fill", function (d, i) {
                 return colours(i);
             });
-    
+        
         groups.exit().remove();
-    
+
         // Create chart bars
         var bars = groups.selectAll("rect")
-            .data(function(d) { return d; });
-        
-        // Handle entering bars
-        bars.enter()
-            .append("rect")
-            .attr("x", function(d) { return w-(margin.right); })
-            .attr("y", function(d) { return yScale(d[1]); })
-            .attr("height", function(d) { return yScale(d[0]) - yScale(d[1]); })
-            .attr("width", 0)
-            .style("opacity", 0.85)
-            .on("mouseover", mouseover)
-            .on("mousemove", mousemove)
-            .on("mouseleave", mouseleave)
-            .on("click", barClicked)
-            .merge(bars) // Ensure entering and updating bars are handled
-            .transition("add") // Apply transition to entering and updating bars
-            .duration(1000)
-            .ease(d3.easeCubicOut)
-            .attr("x", function(d) { return xScale(d.data.Year); })
-            .attr("y", function(d) { return yScale(d[1]); })
-            .attr("height", function(d) { return yScale(d[0]) - yScale(d[1]); })
-            .attr("width", xScale.bandwidth());
-    
+            .data(function(d) { return d; }, function(d) { return d.data.Year; }); // Bind data and years key to bars
+
+        //Transitions based on Bostock's General Update Pattern III - https://gist.github.com/mbostock/3808234 & https://github.com/shanegibney/D3-v4-Bar-Chart-Update-Pattern/blob/master/index.html
+        //EXIT old bars not present in new data - shrink to x axis and remove
         bars.exit()
-            .transition("exit")
-            .duration(1000)
-            .style("fill", "white")
-            .attr("opacity", 0)
-            .ease(d3.easeCubicOut)
-            .attr("x", w-margin.right)
-            .attr("width", 0)
-            .remove();
-    
+        .transition("bars")
+        .ease(d3.easeCubicOut)
+        .delay(100)
+        .duration(800)
+        .attr("y", function(d) { return h-margin.bottom; })
+        .attr("height", 0)
+        .remove();
+
+        //UPDATE old bars present in new data - move to year and new height
+        bars.transition("bars")
+        .ease(d3.easeCubicOut)
+        .delay(900)
+        .duration(800)
+        .attr("x", function(d) { return xScale(d.data.Year); })
+        .attr("y", function(d) { return yScale(d[1]); })
+        .attr("height", function(d) { return yScale(d[0]) - yScale(d[1]); })
+        .attr("width", xScale.bandwidth());
+
+        //ENTER new bars present in new data - grow from x axis to new height
+        bars.enter()
+        .append("rect")
+        .attr("x", (function(d) { return xScale(d.data.Year); }))
+        .attr("y", function(d) { return h - margin.bottom; })
+        .attr("height", function(d) { return 0; })
+        .attr("width", xScale.bandwidth())
+        .style("opacity", 0.85)
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseleave", mouseleave)
+        .on("click", barClicked)
+        .transition("bars")
+        .delay(1700)
+        .ease(d3.easeCubicOut)
+        .duration(800)
+        .attr("y", function(d) { return yScale(d[1]); })
+        .attr("height", function(d) { return yScale(d[0]) - yScale(d[1]); });
+
         // Create x and y axes
         var xAxis = d3.axisBottom(xScale).tickSize(0);
         var yAxis = d3.axisLeft(yScale).ticks(6).tickFormat(formatter);
     
         svg.select(".x-axis")
-            .transition()
+            .transition("axis")
             .ease(d3.easeCubicInOut)
-            .duration(100)
+            .delay(600)
+            .duration(1000)
             .call(xAxis)
             .select(".domain").remove();
 
     
         svg.select(".y-axis")
-            .transition()
+            .transition("axis")
             .ease(d3.easeCubicInOut)
-            .duration(1000)
+            .delay(900)
+            .duration(800)
             .call(yAxis)
             .select(".domain").remove();
     }
-    
 
     // update vis based on user selections - country and sex
     function updateData(selectedCountry, selectedSex) {

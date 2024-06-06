@@ -61,6 +61,14 @@ body {
     color: black;
     font-family: 'Courier New', Courier, monospace;
 }
+
+.x-axis path {
+    stroke: none;
+}
+
+.y-axis path {
+    stroke: none;
+}
 /* ----------------------------- */
 .vis-body {
     display: flex;
