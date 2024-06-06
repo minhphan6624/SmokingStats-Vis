@@ -179,14 +179,17 @@ function loadDataAndRender(dataset) {
         csvFile = "data/consumption-per-smoker-per-day.csv";
         parserFunction = parseCigarettesData;
         yearRange = { min: 1980, max: 2012 };
+        d3.select(".source-choro").text("Source: World Health Organization - Global Health Observatory");
     } else if (dataset === "tobacco") {
         csvFile = "data/tobacco.csv";
         parserFunction = parseTobaccoData;
         yearRange = { min: 2000, max: 2022 };
+        d3.select(".source-choro").text("Source: OECD Health Stastics");
     } else {
         csvFile = "data/vaping.csv";
         parserFunction = parseVapingData;
         yearRange = { min: 2012, max: 2022 };
+        d3.select(".source-choro").text("Source: OECD Health Stastics");
     }
 
     d3.csv(csvFile).then((data) => {
@@ -294,7 +297,7 @@ function loadDataAndRender(dataset) {
 
 }
 
-setSexListener();
+
 
 // Load initial data
 loadDataAndRender(datasetSelect.node().value);
@@ -304,22 +307,26 @@ datasetSelect.on("change", function () {
     loadDataAndRender(this.value);
 });
 
-// //listen for changes to year global from stacked - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
-// function setYearListener() {
-// const readyListener = () => {
-//     if (window.clickedYear) {
-//         // Set the dropdown value to window.selectedCountry - https://d3js.org/d3-selection/modifying#selection_property
-//         // d3.select("#countrySelect").property("value", window.selectedCountry);
-//         // updateData(window.selectedCountry, selectedSex);
-//         console.log(window.clickedYear);
-//     }
-//     return setTimeout(readyListener, 250);
-// };
-// readyListener();
-// }
+// --------------- Data Update Listeners - linking stacked ---------------
 
 setSexListener();
+setYearListener();
 
+//listen for changes to country global from choro - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
+function setCountryListener() {
+    var previousYear = window.clickedYear;
+
+    const readyListener = () => {
+        if (window.clickedYear && window.clickedYear != previousCountry) {
+            // Set the dropdown value to window.selectedCountry - https://d3js.org/d3-selection/modifying#selection_property
+            d3.select("#countrySelect").property("value", window.clickedYear);
+            updateData(window.clickedYear, selectedYear);
+            previousYear = window.clickedYear; // Update the previous country
+        }
+        setTimeout(readyListener, 250);
+    };
+    readyListener();
+}
 //listen for changes to country global from stacked - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
 function setSexListener() {
     var previousSex = window.selectedSex;
