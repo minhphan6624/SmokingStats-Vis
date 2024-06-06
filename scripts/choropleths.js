@@ -130,7 +130,6 @@ function parseCigarettesData(data) {
 function parseTobaccoData(data) {
     var countryData = {};
     var filteredData = data.filter(d => d.Sex === window.selectedSex);
-    console.log(window.selectedSex);
     filteredData.forEach(d => {
         var year = +d.Year; // Convert Year to number
         var code = d["Country Code"]; // Country code remains a string
@@ -150,7 +149,8 @@ function parseTobaccoData(data) {
 //Parse data from vaping.csv file
 function parseVapingData(data) {
     var countryData = {};
-    data.forEach(d => {
+    var filteredData = data.filter(d => d.Sex === window.selectedSex);
+    filteredData.forEach(d => {
         var year = +d.Year; // Convert Year to number
         var code = d["Country Code"]; // Country code remains a string
         var vapeValue = +d["Observed Persons"]; // Vaping consumption
@@ -294,6 +294,8 @@ function loadDataAndRender(dataset) {
 
 }
 
+setSexListener();
+
 // Load initial data
 loadDataAndRender(datasetSelect.node().value);
 
@@ -316,4 +318,18 @@ datasetSelect.on("change", function () {
 // readyListener();
 // }
 
+setSexListener();
 
+//listen for changes to country global from stacked - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
+function setSexListener() {
+    var previousSex = window.selectedSex;
+
+    const readyListener = () => {
+        if (window.selectedSex && window.selectedSex != previousSex) {
+            loadDataAndRender(datasetSelect.node().value);
+            previousSex = window.selectedSex; // Update the previous country
+        }
+        setTimeout(readyListener, 250);
+    };
+    readyListener();
+}
