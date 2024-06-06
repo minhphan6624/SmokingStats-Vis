@@ -4,12 +4,22 @@ var h = 600;
 
 var formatter = d3.format(".4~s"); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
 
+// Define color range
+var color = d3.scaleQuantize()
+    .range(["#fbb4ae", "#b3cde3", "#ccebc5", "#decbe4", "#fed9a6", "#ffffcc", "#e5d8bd", "#fddaec", "#f2f2f2"]);
+
 //Create SVG element
 var mapSvg = d3.select(".vis2")
     .append("svg")
     .attr("width", w)
     .attr("height", h)
     .attr("fill", "grey");
+
+// Create group for the map
+var mapGroup = mapSvg.append("g").attr("class", "mapGroup");
+
+// Create group for the legend
+var legendGroup = mapSvg.append("g").attr("class", "legendGroup");
 
 //Set up projection
 var projection = d3.geoNaturalEarth1()
@@ -20,9 +30,9 @@ var projection = d3.geoNaturalEarth1()
 var path = d3.geoPath()
     .projection(projection);
 
-// Define the zoom behavior
-// References: https://d3js.org/d3-zoom
+// ----------------- Zoom behavior -----------------
 
+// References: https://d3js.org/d3-zoom
 var zoom = d3.zoom()
     .scaleExtent([1, 8]) // Define the scale extent
     .translateExtent([[0, 0], [w, h]]) // Define the translation extent
@@ -33,13 +43,9 @@ mapSvg.call(zoom);
 
 // Function to handle zoom events
 function zoomed(event) {
-    mapSvg.selectAll('path') // Select all paths (countries)
+    mapGroup.selectAll('path') // Select all paths (countries)
         .attr('transform', event.transform); // Apply the transform
 }
-
-// Define color range
-var color = d3.scaleQuantize()
-    .range(["#fbb4ae", "#b3cde3", "#ccebc5", "#decbe4", "#fed9a6", "#ffffcc", "#e5d8bd", "#fddaec", "#f2f2f2"]);
 
 // Dropdown box to select the datasets
 var datasetSelect = d3.select("#dataset-select");
@@ -71,19 +77,21 @@ let mouseMoveCallBack = function (event) {
         .style("top", (event.pageY - 28) + "px");
 }
 
+// --------------- Legend ---------------
+
 function createLegend(colorScale) {
-    var legendWidth = 300;
+    var legendWidth = 400;
     var legendHeight = 10;
     var legendPadding = 10;
-    var legendRectSize = 18;
-    var legendSpacing = 4;
+    var legendRectSize = 50;
+    var legendSpacing = 20; // Increase the spacing between legend items
 
     // Remove any existing legend
-    mapSvg.selectAll(".legend").remove();
+    legendGroup.selectAll(".legend").remove();
 
-    var legendSvg = mapSvg.append("g")
+    var legendSvg = legendGroup.append("g")
         .attr("class", "legend")
-        .attr("transform", `translate(${w - legendWidth - 20}, 20)`);
+        .attr("transform", `translate(${w / 2 - legendWidth / 2}, 550)`); // Position the legend at the bottom center
 
     var legendData = colorScale.range().map(d => {
         var extent = colorScale.invertExtent(d);
@@ -92,21 +100,36 @@ function createLegend(colorScale) {
         return extent;
     });
 
-    legendData.forEach((d, i) => {
-        legendSvg.append("rect")
-            .attr("x", i * (legendRectSize + legendSpacing))
-            .attr("y", 0)
-            .attr("width", legendRectSize)
-            .attr("height", legendHeight)
-            .style("fill", colorScale(d[0]));
+    var legend = legendSvg.selectAll(".legendItem")
+        .data(legendData)
+        .enter()
+        .append("g")
+        .attr("class", "legendItem")
+        .attr("transform", (d, i) => `translate(${i * (legendRectSize)}, 0)`);
 
-        legendSvg.append("text")
-            .attr("x", i * (legendRectSize + legendSpacing) + legendRectSize / 2)
-            .attr("y", legendHeight + legendPadding)
-            .attr("dy", "0.8em")
-            .style("text-anchor", "middle")
-            .text(d3.format(".2s")(d[0]));
-    });
+    legend.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", legendRectSize)
+        .attr("height", legendHeight)
+        .style("fill", d => colorScale(d[0]));
+
+    legend.append("text")
+        .attr("x", legendRectSize / 2)
+        .attr("y", legendHeight + legendPadding)
+        .attr("dy", "0.8em")
+        .style("text-anchor", "middle")
+        .style("font-size", "12px")
+        .text(d => d3.format(".2s")(d[0]));
+
+    // Add "No data" label
+    legendSvg.append("text")
+        .attr("x", -50)
+        .attr("y", legendHeight / 2)
+        .attr("dy", "0.35em")
+        .style("text-anchor", "end")
+        .style("font-size", "12px")
+        .text("No data");
 }
 
 // --------------- Parser Functions ---------------
@@ -211,7 +234,7 @@ function loadDataAndRender(dataset) {
             });
 
             // Bind data and create one path per GeoJSON feature
-            var paths = mapSvg.selectAll("path").data(json.features);
+            var paths = mapGroup.selectAll("path").data(json.features);
 
             paths.enter()
                 .append("path")
@@ -290,14 +313,12 @@ function loadDataAndRender(dataset) {
                     .on("mouseout", mouseOutCallBack);
             }           
         });
-    
+
     });
-    // Create or update legend
-    createLegend(color);
 
+        // Create or update legend
+        createLegend(color);
 }
-
-
 
 // Load initial data
 loadDataAndRender(datasetSelect.node().value);
