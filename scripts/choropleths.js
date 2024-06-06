@@ -6,7 +6,8 @@ var formatter = d3.format(".4~s"); //https://github.com/d3/d3/blob/45df8c66dfe43
 
 // Define color range
 var color = d3.scaleQuantize()
-    .range(["#fbb4ae", "#b3cde3", "#ccebc5", "#decbe4", "#fed9a6", "#ffffcc", "#e5d8bd", "#fddaec", "#f2f2f2"]);
+    // .range(["#fbb4ae", "#b3cde3", "#ccebc5", "#decbe4", "#fed9a6", "#ffffcc", "#e5d8bd", "#fddaec", "#f2f2f2"]);
+    .range(d3.schemeYlGnBu[9]); // Use a predefined color scheme with 9 discrete colors
 
 //Create SVG element
 var mapSvg = d3.select(".vis2")
