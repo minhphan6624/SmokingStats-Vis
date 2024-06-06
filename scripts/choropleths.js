@@ -25,6 +25,7 @@ var path = d3.geoPath()
 
 var zoom = d3.zoom()
     .scaleExtent([1, 8]) // Define the scale extent
+    .translateExtent([[0, 0], [w, h]]) // Define the translation extent
     .on("zoom", zoomed);
 
 // Apply the zoom behavior to the SVG element
@@ -108,8 +109,6 @@ function createLegend(colorScale) {
     });
 }
 
-
-
 // --------------- Parser Functions ---------------
 
 //Parse data from cigarettes consumption csv 
@@ -167,9 +166,7 @@ function parseVapingData(data) {
     return countryData;
 }
 
-
 // --------------- Main Rendering method ---------------
-
 //Load data from csv files and render the choropleths
 function loadDataAndRender(dataset) {
 
@@ -263,9 +260,9 @@ function loadDataAndRender(dataset) {
             function updateMap(selectedYear) {
 
                 //Get the current dataset that are being examined
-                var selectedType = datasetSelect.node().value;
+                var selectedDataset = datasetSelect.node().value;
 
-                var values = json.features.map(d => d.properties.values[selectedYear]?.[selectedType]);
+                var values = json.features.map(d => d.properties.values[selectedYear]?.[selectedDataset]);
 
                 var minValue = d3.min(values);
                 var maxValue = d3.max(values);
@@ -276,19 +273,19 @@ function loadDataAndRender(dataset) {
                 // Update map colors based on the selected year and selected type
                 mapSvg.selectAll("path")
                     .attr("fill", d => {
-                        var value = d.properties.values[selectedYear]?.[selectedType];
+                        var value = d.properties.values[selectedYear]?.[selectedDataset];
                         return value ? color(value) : "#ccc";
                     })
                     .on("mouseover", function (event, d) {
                         d3.select(this).attr("stroke", "#000").attr("stroke-width", 1); // Highlight border
                         tooltip.transition().duration(200).style("opacity", .9);
-                        tooltip.html(d.properties.name + "<br/>" + d.properties.values[selectedYear]?.[selectedType])
+                        tooltip.html(d.properties.name + "<br/>" + d.properties.values[selectedYear]?.[selectedDataset])
                             .style("left", (event.pageX + 5) + "px")
                             .style("top", (event.pageY - 28) + "px");
                     })
                     .on("mousemove", mouseMoveCallBack)
                     .on("mouseout", mouseOutCallBack);
-            }
+            }           
         });
     
     });

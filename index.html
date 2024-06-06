@@ -43,6 +43,19 @@
         </div>
 
         <div class="vis2 center-svg">
+            <div class="dropdown">
+                <label for="continent-select">Select Continent:</label>
+                <select id="continent-select">
+                    <option value="all">All</option>
+                    <option value="Africa">Africa</option>
+                    <option value="Asia">Asia</option>
+                    <option value="Europe">Europe</option>
+                    <option value="North America">North America</option>
+                    <option value="Oceania">Oceania</option>
+                    <option value="South America">South America</option>
+                </select>
+            </div>
+            
             <div class="slider-container">
                 <label for="year-slider">Year: <span id="selected-year">1980</span></label>
                 <input type="range" id="year-slider" min="1980" max="2015" value="1980" step="1">
@@ -50,9 +63,10 @@
         </div>
         
         
-        <h3 class="text-center stacked-title">Stacked Bar Chart</h3>
+       
         
         <div class="vis3 center-svg">
+            <h3 class="text-center stacked-title">Stacked Bar Chart</h3>
             <div class="dropdown-country"></div>
         
             <div class="stacked-buttons">
@@ -76,7 +90,6 @@
     </footer>
 
     <!-- JavaScript files -->
-    <script src="scripts/index.js"></script>
     <script src="scripts/choropleths.js"></script>
     <script src="scripts/stackedBar.js"></script>
 </body>

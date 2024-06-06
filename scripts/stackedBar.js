@@ -2,8 +2,8 @@
 //https://stackoverflow.com/questions/46476426/how-do-i-share-a-global-variable-between-multiple-files
 
 //Width and height
-var w = 800;
-var h = 300;
+var w = 1000;
+var h = 400;
 
 //Mike Bostock Margin Convention - https://observablehq.com/@d3/margin-convention
 margin = ({top: 20, right: 150, bottom: 30, left: 60});
@@ -20,45 +20,45 @@ lastClickedCountry = selectedCountry;
 var selectedSex = "Total";
 
 // --------------- Tooltip ---------------
-    // Create hover tooltip - https://d3-graph-gallery.com/graph/barplot_stacked_hover.html
-    var tooltip = d3.select(".vis3")
-        .append("div")
-        .style("opacity", 0)
-        .attr("class", "tooltip")
-        .style("background-color", "white")
-        .style("border", "solid")
-        .style("border-width", "1px")
-        .style("border-radius", "5px")
-        .style("padding", "10px");
+// Create hover tooltip - https://d3-graph-gallery.com/graph/barplot_stacked_hover.html
+var tooltip = d3.select(".vis3")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px");
 
-    // change tooltip based on mouseover
-    var mouseover = function(event, d) {
-        d3.select(this).transition()
-            .duration(400)
-            .style("opacity", 1);
-        var subgroupName = d3.select(this.parentNode).datum().key;
-        var subgroupValue = formatter(d.data[subgroupName]);
-        tooltip.html("<strong>" + subgroupName + "</strong><br>" + "# of People: " + subgroupValue + "<br>" + "Sex: " + selectedSex + "<br>" + "Country: " + selectedCountry)
-                .style("opacity", 1);
-    }
-    // change tooltip based on mousemove
-    var mousemove = function(event, d) {
-        tooltip.style("left", (event.pageX + 10) + "px")
-               .style("top", (event.pageY + 10) + "px");
-    }
-    // change tooltip based on mouseleave
-    var mouseleave = function(event, d) {
-        d3.select(this).transition()
+// change tooltip based on mouseover
+var mouseover = function(event, d) {
+    d3.select(this).transition()
         .duration(400)
-        .style("opacity", 0.85);
-        tooltip.style("opacity", 0);
-    }
+        .style("opacity", 1);
+    var subgroupName = d3.select(this.parentNode).datum().key;
+    var subgroupValue = formatter(d.data[subgroupName]);
+    tooltip.html("<strong>" + subgroupName + "</strong><br>" + "# of People: " + subgroupValue + "<br>" + "Sex: " + selectedSex + "<br>" + "Country: " + selectedCountry)
+            .style("opacity", 1);
+}
+// change tooltip based on mousemove
+var mousemove = function(event, d) {
+    tooltip.style("left", (event.pageX + 10) + "px")
+            .style("top", (event.pageY + 10) + "px");
+}
+// change tooltip based on mouseleave
+var mouseleave = function(event, d) {
+    d3.select(this).transition()
+    .duration(400)
+    .style("opacity", 0.85);
+    tooltip.style("opacity", 0);
+}
 
-    function barClicked(event, d) {
-        // Get the year of the clicked bar
-        window.clickedYear = d.data.Year;
-        console.log(clickedYear);
-    }
+function barClicked(event, d) {
+    // Get the year of the clicked bar
+    window.clickedYear = d.data.Year;
+    console.log(clickedYear);
+}
 
 //Load data from csv file
 d3.csv("data/VapingTobacco.csv").then((data) => {
