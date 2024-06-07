@@ -1,16 +1,17 @@
-const width = 600;
+const width = 800;
 const height = 300;
 const padding = 60;
 
-// Function to update the line chart based on the selected country
-function updateLineChart(countryCode) {
+// Function to update the line chart based on the selected country and sex
+function updateLineChart(selectedCountry, selectedSex) {
     d3.csv("data/consumption-per-smoker-per-day.csv").then(data => {
-        const dataset = parseCigarettesDataForCountry(data, countryCode);
+        const dataset = parseCigarettesDataForCountry(data, selectedCountry);
+        updateLineTitle(selectedCountry, selectedSex); // Update the title
         drawLineChart(dataset);
     });
 }
 
-var formatter = d3.format(".2f"); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
+var formatter = d3.format(".2f");
 
 // Function to parse data for a specific country
 function parseCigarettesDataForCountry(data, countryCode) {
@@ -18,6 +19,11 @@ function parseCigarettesDataForCountry(data, countryCode) {
         year: +d.Year,
         value: +d.Value
     }));
+}
+
+// Function to update the line chart title
+function updateLineTitle(selectedCountry, selectedSex) {
+    d3.select(".line-title").text("Cigarette Consumption per Smoker per Day in " + selectedCountry);
 }
 
 // Function to draw the line chart
@@ -65,7 +71,7 @@ function drawLineChart(dataset) {
         .attr("stroke", "#69b3a2")
         .attr("stroke-width", 2);
 
-    // Transition (https://medium.com/@louisemoxy/create-a-d3-line-chart-animation-336f1cb7dd61)
+    // Transition
     const totalLength = path.node().getTotalLength();
 
     path.attr("stroke-dasharray", totalLength + " " + totalLength)
@@ -75,13 +81,7 @@ function drawLineChart(dataset) {
         .ease(d3.easeLinear)
         .attr("stroke-dashoffset", 0);
 
-    // Tooltip
-    // const tooltip = d3.select("body").append("div")
-    //     .attr("class", "tooltip")
-    //     .style("opacity", 0);
-
-    //Cursor tool tip (https://d3-graph-gallery.com/graph/line_cursor.html)
-    // Create the circle that travels along the curve of the chart
+    // Tooltip and interaction
     const focus = svg.append('g')
         .append('circle')
         .style("fill", "none")
@@ -89,14 +89,12 @@ function drawLineChart(dataset) {
         .attr('r', 8.5)
         .style("opacity", 0);
 
-    // Create the text that travels along the curve of the chart
     const focusText = svg.append('g')
         .append('text')
         .style("opacity", 0)
         .attr("text-anchor", "left")
         .attr("alignment-baseline", "middle");
 
-    // Rectangle for capturing mouse movements (tracks it)
     svg.append('rect')
         .style("fill", "none")
         .style("pointer-events", "all")
@@ -106,17 +104,13 @@ function drawLineChart(dataset) {
         .on('mousemove', mousemove)
         .on('mouseout', mouseout);
 
-    // Bisector for finding the closest data point
     const bisect = d3.bisector(d => d.year).left;
 
-    // Mouseover function
     function mouseover() {
         focus.style("opacity", 1);
         focusText.style("opacity", 1);
     }
-    
 
-    // Mousemove function
     function mousemove(event) {
         const x0 = xScale.invert(d3.pointer(event)[0]);
         const i = bisect(dataset, x0);
@@ -125,32 +119,22 @@ function drawLineChart(dataset) {
             .attr("cx", xScale(selectedData.year))
             .attr("cy", yScale(selectedData.value));
         focusText
-            .html(null)  // Clear any existing text
+            .html(null)
             .append('tspan')
             .attr('x', xScale(selectedData.year) - 40)
-            .attr('dy', '1.5em') // Position text above the data point
+            .attr('dy', '1.5em')
             .text(`Year: ${selectedData.year}`)
             .append('tspan')
             .attr('x', xScale(selectedData.year) - 40)
             .attr('dy', '1.2em')
             .text(`Value: ${formatter(selectedData.value)}`);
-        tooltip.transition().duration(200).style("opacity", .9);
-        tooltip.html(`Year: ${selectedData.year}<br>Value: ${formatter(selectedData.value)}`)
-            .style("left", (event.pageX + 5) + "px")
-            .style("top", (event.pageY - 28) + "px");
     }
-    
-    
-    
 
-    // Mouseout function
     function mouseout() {
         focus.style("opacity", 0);
         focusText.style("opacity", 0);
-        tooltip.transition().duration(500).style("opacity", 0);
     }
 
-    // Draw circles for data points
     svg.selectAll("circle.data-point")
         .data(dataset)
         .enter()
@@ -171,3 +155,26 @@ function drawLineChart(dataset) {
         });
 }
 
+// Initialize line chart with default values
+updateLineChart("AUS", "Total");
+
+// Listen for country and sex changes to update the line chart
+d3.select("#countrySelect").on("change", function() {
+    selectedCountry = d3.select(this).property("value");
+    updateLineChart(selectedCountry, selectedSex);
+});
+
+d3.select("#filter-all").on("click", function() {
+    selectedSex = "Total";
+    updateLineChart(selectedCountry, selectedSex);
+});
+
+d3.select("#filter-male").on("click", function() {
+    selectedSex = "Male";
+    updateLineChart(selectedCountry, selectedSex);
+});
+
+d3.select("#filter-female").on("click", function() {
+    selectedSex = "Female";
+    updateLineChart(selectedCountry, selectedSex);
+});

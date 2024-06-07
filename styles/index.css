@@ -208,3 +208,11 @@ body {
     color: #000;
 }
 
+/*------------Line Chart ---------------*/
+
+/* Stacked Bar Chart */
+.line-title {
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+}
+
