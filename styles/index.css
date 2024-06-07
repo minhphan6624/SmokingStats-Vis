@@ -23,6 +23,22 @@ body {
     margin-bottom: 10px;
 }
 
+/* ----------------------------- */
+.main-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    
+    margin: auto;
+    padding: 10px;
+
+}
+
+.vis-container {
+    display: flex;
+    flex-direction: row;
+}
 
 /* World Map + Stacked Bar Chart */
 .title-header {
@@ -69,17 +85,7 @@ body {
 .y-axis path {
     stroke: none;
 }
-/* ----------------------------- */
-.vis-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    
-    margin: auto;
-    padding: 10px;
 
-}
 
 /* Visualization alignment */
 .center-svg {

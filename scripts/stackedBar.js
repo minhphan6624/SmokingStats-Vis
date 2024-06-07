@@ -2,7 +2,7 @@
 //https://stackoverflow.com/questions/46476426/how-do-i-share-a-global-variable-between-multiple-files
 
 //Width and height
-var w = 1000;
+var w = 800;
 var h = 400;
 
 //Mike Bostock Margin Convention - https://observablehq.com/@d3/margin-convention
