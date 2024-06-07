@@ -379,6 +379,7 @@ function setSexListener() {
     };
     readyListener();
 }
+
 setSexListener();
 setYearListener();
 

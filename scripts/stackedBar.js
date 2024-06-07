@@ -20,7 +20,8 @@ lastClickedCountry = selectedCountry;
 var selectedSex = "Total";
 var clickedYear = 2000;
 
-// --------------- Tooltip ---------------
+// --------------------------------------------- Tooltip ---------------------------------------------
+
 // Create hover tooltip - https://d3-graph-gallery.com/graph/barplot_stacked_hover.html
 var tooltip = d3.select(".vis3")
     .append("div")
@@ -267,7 +268,7 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
         updateData(selectedCountry, selectedSex);
     });
 
-    // Event listener of buttons
+    // --------------------------------------------- Event listeners for sex filtering buttons ---------------------------------------------
     d3.select("#filter-all").on("click", function() {
         selectedSex = "Total";
         window.selectedSex = selectedSex;
