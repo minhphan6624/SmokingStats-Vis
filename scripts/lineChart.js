@@ -62,7 +62,7 @@ function drawLineChart(dataset) {
         .attr("class", "line")
         .attr("d", line)
         .attr("fill", "none")
-        .attr("stroke", "steelblue")
+        .attr("stroke", "#69b3a2")
         .attr("stroke-width", 2);
 
     // Transition (https://medium.com/@louisemoxy/create-a-d3-line-chart-animation-336f1cb7dd61)
@@ -159,7 +159,7 @@ function drawLineChart(dataset) {
         .attr("cx", d => xScale(d.year))
         .attr("cy", d => yScale(d.value))
         .attr("r", 3)
-        .attr("fill", "red")
+        .attr("fill", "#404080")
         .on("mouseover", (event, d) => {
             tooltip.transition().duration(200).style("opacity", .9);
             tooltip.html(`Year: ${d.year}<br>Value: ${formatter(d.value)}`)
