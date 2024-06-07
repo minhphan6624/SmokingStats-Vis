@@ -2,8 +2,8 @@
 //https://stackoverflow.com/questions/46476426/how-do-i-share-a-global-variable-between-multiple-files
 
 //Width and height
-var w = 800;
-var h = 400;
+var w = 600;
+var h = 250;
 
 //Mike Bostock Margin Convention - https://observablehq.com/@d3/margin-convention
 margin = ({top: 20, right: 150, bottom: 30, left: 60});
@@ -104,7 +104,7 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
     }
 
     // --------------- Update Chart ---------------
-    function updateChart(filteredData) {
+    function updateStackedBarChart(filteredData) {
         // Sort filteredData by Year
         filteredData.sort(function(a, b) {
             return d3.ascending(a.Year, b.Year);
@@ -256,7 +256,7 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
                 Vaping: +d["Vaping Observed Persons"]
             };
         });
-        updateChart(filteredData);
+        updateStackedBarChart(filteredData);
     }
 
     initialiseChart();
