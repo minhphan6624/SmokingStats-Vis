@@ -16,7 +16,7 @@ var mapSvg = d3.select(".vis2")
     .attr("height", h)
     .attr("fill", "grey");
 
-// Create group for the map
+    // Create group for the map
 var mapGroup = mapSvg.append("g").attr("class", "mapGroup");
 
 // Create group for the legend
@@ -106,16 +106,16 @@ function createLegend(colorScale) {
 
     legend.append("rect")
         .attr("x", 0)
-        .attr("y", 0)
-        .attr("width", legendRectSize)
-        .attr("height", legendHeight)
+            .attr("y", 0)
+            .attr("width", legendRectSize)
+            .attr("height", legendHeight)
         .style("fill", d => colorScale(d[0]));
 
     legend.append("text")
         .attr("x", legendRectSize / 2)
-        .attr("y", legendHeight + legendPadding)
-        .attr("dy", "0.8em")
-        .style("text-anchor", "middle")
+            .attr("y", legendHeight + legendPadding)
+            .attr("dy", "0.8em")
+            .style("text-anchor", "middle")
         .style("font-size", "12px")
         .text(d => d3.format(".2s")(d[0]));
 
@@ -166,7 +166,7 @@ function parseCigarettesData(data) {
 
 function parseTobaccoData(data) {
     var countryData = {};
-    var filteredData = data.filter(d => d.Sex === window.selectedSex);
+    var filteredData = data.filter(d => d.Sex == selectedSex );
     filteredData.forEach(d => {
         var year = +d.Year; // Convert Year to number
         var code = d["Country Code"]; // Country code remains a string
@@ -186,7 +186,7 @@ function parseTobaccoData(data) {
 //Parse data from vaping.csv file
 function parseVapingData(data) {
     var countryData = {};
-    var filteredData = data.filter(d => d.Sex === window.selectedSex);
+    var filteredData = data.filter(d => d.Sex == selectedSex);
     filteredData.forEach(d => {
         var year = +d.Year; // Convert Year to number
         var code = d["Country Code"]; // Country code remains a string
@@ -274,12 +274,6 @@ function loadDataAndRender(dataset) {
                     d3.select(this).attr("stroke", "#000").attr("stroke-width", 1); // Highlight border of clicked country
                     lastClickedCountry = d; // Store the clicked country
                     window.selectedCountry = d.properties.name; // Store the selected country for stacked
-                })
-                .on("click", function (event, d) {
-                    mapSvg.selectAll('path').attr("stroke-width", 0.25); // reset all paths
-                    d3.select(this).attr("stroke", "#000").attr("stroke-width", 1); // Highlight border of clicked country
-                    lastClickedCountry = d; // Store the clicked country
-                    window.selectedCountry = d.properties.name; // Store the selected country for stacked
 
                     // Call the function to update the line chart if the dataset is cigarettes
                     if (dataset === "cigarettes") {
@@ -302,6 +296,8 @@ function loadDataAndRender(dataset) {
                 var selectedYear = slider.node().value;
                 selectedYearLabel.text(selectedYear);
                 updateMap(selectedYear);
+                window.clickedYear = selectedYear;
+                console.log(window.clickedYear);
             });
 
             // Initial map display
@@ -338,10 +334,11 @@ function loadDataAndRender(dataset) {
                     .on("mouseout", mouseOutCallBack);
             }           
         });
-
+    
     });
     // Create or update legend
     createLegend(color);
+
 }
 
 // Load initial data
@@ -357,15 +354,17 @@ loadDataAndRender(datasetSelect.node().value);
 setSexListener();
 setYearListener();
 
-//listen for changes to country global from choro - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
-function setCountryListener() {
-    var previousYear = window.clickedYear;
+//listen for changes to year selected in slider and bars - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
+function setYearListener() {
+    var previousYear = 2000;
 
     const readyListener = () => {
-        if (window.clickedYear && window.clickedYear != previousCountry) {
+        if (window.clickedYear && window.clickedYear != previousYear) {
+            console.log(clickedYear);
             // Set the dropdown value to window.selectedCountry - https://d3js.org/d3-selection/modifying#selection_property
-            d3.select("#countrySelect").property("value", window.clickedYear);
-            updateData(window.clickedYear, selectedYear);
+            d3.select("#year-slider").property("value", window.clickedYear);
+            d3.select("#selected-year").text(window.clickedYear);
+            loadDataAndRender(datasetSelect.node().value);
             previousYear = window.clickedYear; // Update the previous country
         }
         setTimeout(readyListener, 250);
@@ -375,8 +374,7 @@ function setCountryListener() {
 
 //listen for changes to country global from stacked - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
 function setSexListener() {
-    var previousSex = window.selectedSex;
-
+    var previousSex = "Total";
     const readyListener = () => {
         if (window.selectedSex && window.selectedSex != previousSex) {
             loadDataAndRender(datasetSelect.node().value);
