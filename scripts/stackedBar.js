@@ -8,7 +8,7 @@ var h = 600;
 //Mike Bostock Margin Convention - https://observablehq.com/@d3/margin-convention
 margin = ({top: 70, right:50, bottom: 80, left: 70});
     
-var formatter = d3.format(".4~s"); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
+var formatted = d3.format(".4~s"); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
 
 // Chart colours
 var colours = d3.scaleOrdinal(["#69b3a2", "#404080"]);
@@ -201,7 +201,7 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
 
         // Create x and y axes
         var xAxis = d3.axisBottom(xScale).tickSize(0);
-        var yAxis = d3.axisLeft(yScale).ticks(6).tickFormat(formatter);
+        var yAxis = d3.axisLeft(yScale).ticks(6).tickFormat(formatted);
     
         svg.select(".x-axis")
             .transition("axis")
