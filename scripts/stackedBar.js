@@ -18,6 +18,7 @@ var selectedCountry = "Australia";
 window.selectedCountry = selectedCountry;
 lastClickedCountry = selectedCountry;
 var selectedSex = "Total";
+var clickedYear = 2000;
 
 // --------------- Tooltip ---------------
 // Create hover tooltip - https://d3-graph-gallery.com/graph/barplot_stacked_hover.html
@@ -289,7 +290,7 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
 
     //listen for changes to country global from choro - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
     function setCountryListener() {
-        let previousCountry = window.selectedCountry;
+        var previousCountry = window.selectedCountry;
     
         const readyListener = () => {
             if (window.selectedCountry && window.selectedCountry != previousCountry) {
@@ -302,8 +303,8 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
         };
         readyListener();
     }
-    
 
     window.selectedSex = selectedSex;
+    window.window.clickedYear = window.clickedYear;
     updateData(selectedCountry, selectedSex);
 });
