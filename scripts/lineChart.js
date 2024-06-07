@@ -1,5 +1,5 @@
 const width = 800;
-const height = 300;
+const height = 600;
 const padding = 60;
 
 // Function to update the line chart based on the selected country and sex
@@ -71,7 +71,7 @@ function drawLineChart(dataset) {
         .attr("stroke", "#69b3a2")
         .attr("stroke-width", 2);
 
-    // Transition
+    // Transition (https://medium.com/@louisemoxy/create-a-d3-line-chart-animation-336f1cb7dd61)
     const totalLength = path.node().getTotalLength();
 
     path.attr("stroke-dasharray", totalLength + " " + totalLength)
@@ -81,7 +81,7 @@ function drawLineChart(dataset) {
         .ease(d3.easeLinear)
         .attr("stroke-dashoffset", 0);
 
-    // Tooltip and interaction
+    // Tooltip and interaction (https://d3-graph-gallery.com/graph/line_cursor.html)
     const focus = svg.append('g')
         .append('circle')
         .style("fill", "none")
