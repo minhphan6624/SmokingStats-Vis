@@ -168,9 +168,11 @@ body {
 /* --------------- Visualization 3 Styling --------------- */
 .vis3 {
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
-    align-items: left;
+}
+
+.dropdown-country {
+    margin: 10px;
 }
 
 .stacked-buttons {

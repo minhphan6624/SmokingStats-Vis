@@ -1,5 +1,5 @@
 //Linking data vis - https://stackoverflow.com/questions/46476426/how-do-i-share-a-global-variable-between-multiple-files
-var w = 1000;
+var w = 900;
 var h = 600;
 //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
 var formatter = d3.format(".4~s"); 
@@ -23,8 +23,8 @@ var legendGroup = mapSvg.append("g").attr("class", "legendGroup");
 
 //Set up projection
 var projection = d3.geoNaturalEarth1()
-    .translate([w / 2 - 10, h / 2 + 25])
-    .scale(180);
+                    .translate([w / 2 - 35, h / 2 + 25])
+                    .scale(170);
 
 //Define path generator
 var path = d3.geoPath()
@@ -138,12 +138,12 @@ datasetSelect.on("change", function () {
     var selectedDataset = this.value;
 
     if (selectedDataset === "cigarettes") {
-        d3.select(".vis3").style("display", "none");
-        d3.select(".vis4").style("display", "block");
+        d3.select(".vis-stacked").style("display", "none");
+        d3.select(".vis-line").style("display", "block");
         updateLineChart('AUS'); // Default to Australia when cigarettes dataset is selected
     } else {
-        d3.select(".vis3").style("display", "block");
-        d3.select(".vis4").style("display", "none");
+        d3.select(".vis-stacked").style("display", "block");
+        d3.select(".vis-line").style("display", "none");
         // updateStackedBarChart(selectedDataset); // Update the stacked bar chart for other datasets
     }
     

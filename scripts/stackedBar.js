@@ -2,11 +2,11 @@
 //https://stackoverflow.com/questions/46476426/how-do-i-share-a-global-variable-between-multiple-files
 
 //Width and height
-var w = 600;
-var h = 250;
+var w = 800;
+var h = 600;
 
 //Mike Bostock Margin Convention - https://observablehq.com/@d3/margin-convention
-margin = ({top: 20, right: 150, bottom: 30, left: 60});
+margin = ({top: 70, right:60, bottom: 80, left: 60});
     
 var formatter = d3.format(".4~s"); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
 
@@ -19,6 +19,12 @@ window.selectedCountry = selectedCountry;
 lastClickedCountry = selectedCountry;
 var selectedSex = "Total";
 var clickedYear = 2000;
+
+// Create SVG element
+var svg = d3.select(".vis3")
+            .append("svg")
+            .attr("width", w)
+            .attr("height", h);
 
 // --------------------------------------------- Tooltip ---------------------------------------------
 
@@ -81,14 +87,9 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
     
     // --------------- Initial Chart ---------------
     function initialiseChart() {
-        // Create SVG element
-        var svg = d3.select(".vis3")
-            .append("svg")
-            .attr("width", w)
-            .attr("height", h);
-
+        
         // Add groups for main bar chart
-        var g0 = svg.append("g")
+        svg.append("g")
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
@@ -132,10 +133,10 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
         var svg = d3.select(".vis3 svg");
 
         //legend
-        svg.append("circle").attr("cx", w-margin.left*2).attr("cy",h/2-15).attr("r", 6).style("fill", colours(0))
-        svg.append("circle").attr("cx", w-margin.left*2).attr("cy",h/2+15).attr("r", 6).style("fill", colours(1))
-        svg.append("text").attr("x", w-margin.left*2+10).attr("y", h/2-14).text("Smoking").style("font-size", "15px").attr("alignment-baseline","middle")
-        svg.append("text").attr("x", w-margin.left*2+10).attr("y", h/2+16).text("Vaping").style("font-size", "15px").attr("alignment-baseline","middle")
+        svg.append("circle").attr("cx", w/2-80).attr("cy", h-margin.bottom+40).attr("r", 6).style("fill", colours(0))
+        svg.append("circle").attr("cx", w/2+60).attr("cy", h-margin.bottom+40).attr("r", 6).style("fill", colours(1))
+        svg.append("text").attr("x", w/2-70).attr("y", h-margin.bottom+42).text("Smoking").style("font-size", "15px").attr("alignment-baseline","middle")
+        svg.append("text").attr("x", w/2+70).attr("y", h-margin.bottom+42).text("Vaping").style("font-size", "15px").attr("alignment-baseline","middle")
             
         // Add a group for each row of data
         var groups = svg.selectAll("g.layer")
