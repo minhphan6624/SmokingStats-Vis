@@ -1,6 +1,14 @@
-const width = 1000;
-const height = 400;
+const width = 600;
+const height = 300;
 const padding = 60;
+
+// Function to update the line chart based on the selected country
+function updateLineChart(countryCode) {
+    d3.csv("data/consumption-per-smoker-per-day.csv").then(data => {
+        const dataset = parseCigarettesDataForCountry(data, countryCode);
+        drawLineChart(dataset);
+    });
+}
 
 // Function to parse data for a specific country
 function parseCigarettesDataForCountry(data, countryCode) {
@@ -79,10 +87,4 @@ function drawLineChart(dataset) {
         });
 }
 
-// Function to update the line chart based on the selected country
-function updateLineChart(countryCode) {
-    d3.csv("data/consumption-per-smoker-per-day.csv").then(data => {
-        const dataset = parseCigarettesDataForCountry(data, countryCode);
-        drawLineChart(dataset);
-    });
-}
+

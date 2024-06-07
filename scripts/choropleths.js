@@ -1,12 +1,11 @@
 //Linking data vis - https://stackoverflow.com/questions/46476426/how-do-i-share-a-global-variable-between-multiple-files
-var w = 800;
+var w = 1000;
 var h = 600;
-
-var formatter = d3.format(".4~s"); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
+//https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
+var formatter = d3.format(".4~s"); 
 
 // Define color range
 var color = d3.scaleQuantize()
-    // .range(["#fbb4ae", "#b3cde3", "#ccebc5", "#decbe4", "#fed9a6", "#ffffcc", "#e5d8bd", "#fddaec", "#f2f2f2"]);
     .range(d3.schemeYlGnBu[9]); // Use a predefined color scheme with 9 discrete colors
 
 //Create SVG element
@@ -16,7 +15,7 @@ var mapSvg = d3.select(".vis2")
     .attr("height", h)
     .attr("fill", "grey");
 
-    // Create group for the map
+// Create group for the map
 var mapGroup = mapSvg.append("g").attr("class", "mapGroup");
 
 // Create group for the legend
@@ -31,7 +30,7 @@ var projection = d3.geoNaturalEarth1()
 var path = d3.geoPath()
     .projection(projection);
 
-// ----------------- Zoom behavior -----------------
+// --------------------------------------------- Zoom behavior ---------------------------------------------
 
 // References: https://d3js.org/d3-zoom
 var zoom = d3.zoom()
@@ -48,7 +47,7 @@ function zoomed(event) {
         .attr('transform', event.transform); // Apply the transform
 }
 
-// --------------- Tooltip ---------------
+// --------------------------------------------- Tooltip ---------------------------------------------
 
 // Define the tooltip
 var tooltip = d3.select("body").append("div")
@@ -74,7 +73,7 @@ let mouseMoveCallBack = function (event) {
         .style("top", (event.pageY - 28) + "px");
 }
 
-// --------------- Legend ---------------
+// --------------------------------------------- Legend ---------------------------------------------
 
 function createLegend(colorScale) {
     var legendWidth = 400;
@@ -129,6 +128,8 @@ function createLegend(colorScale) {
         .text("No data");
 }
 
+// --------------------------------------------- Dataset selector ---------------------------------------------
+
 // Dropdown box to select the datasets
 var datasetSelect = d3.select("#dataset-select");
 
@@ -139,14 +140,17 @@ datasetSelect.on("change", function () {
     if (selectedDataset === "cigarettes") {
         d3.select(".vis3").style("display", "none");
         d3.select(".vis4").style("display", "block");
+        updateLineChart('AUS'); // Default to Australia when cigarettes dataset is selected
     } else {
         d3.select(".vis3").style("display", "block");
         d3.select(".vis4").style("display", "none");
+        // updateStackedBarChart(selectedDataset); // Update the stacked bar chart for other datasets
     }
+    
     loadDataAndRender(selectedDataset);
 });
 
-// --------------- Parser Functions ---------------
+// --------------------------------------------- Parser Functions ---------------------------------------------
 
 //Parse data from cigarettes consumption csv 
 function parseCigarettesData(data) {
@@ -203,7 +207,7 @@ function parseVapingData(data) {
     return countryData;
 }
 
-// --------------- Main Rendering method ---------------
+// --------------------------------------------- Main Rendering method ---------------------------------------------
 //Load data from csv files and render the choropleths
 function loadDataAndRender(dataset) {
 
@@ -344,16 +348,7 @@ function loadDataAndRender(dataset) {
 // Load initial data
 loadDataAndRender(datasetSelect.node().value);
 
-// // Update data when a new dataset is selected
-// datasetSelect.on("change", function () {
-//     loadDataAndRender(this.value);
-// });
-
 // --------------- Data Update Listeners - linking stacked ---------------
-
-setSexListener();
-setYearListener();
-
 //listen for changes to year selected in slider and bars - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
 function setYearListener() {
     var previousYear = 2000;
@@ -384,3 +379,7 @@ function setSexListener() {
     };
     readyListener();
 }
+setSexListener();
+setYearListener();
+
+
