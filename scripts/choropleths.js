@@ -367,7 +367,7 @@ function setYearListener() {
     readyListener();
 }
 
-//listen for changes to country global from stacked - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
+//listen for changes to sex global from stacked - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
 function setSexListener() {
     var previousSex = "Total";
     const readyListener = () => {

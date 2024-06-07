@@ -174,7 +174,9 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
         .attr("x", function(d) { return xScale(d.data.Year); })
         .attr("y", function(d) { return yScale(d[1]); })
         .attr("height", function(d) { return yScale(d[0]) - yScale(d[1]); })
-        .attr("width", xScale.bandwidth());
+        .attr("width", xScale.bandwidth())
+        .style("stroke", function(d) { return d.data.Year == clickedYear ? "black" : "none"; })
+        .style("stroke-width", function(d) { return d.data.Year == clickedYear ? "2px" : "0"; });
 
         //ENTER new bars present in new data - grow from x axis to new height
         bars.enter()
@@ -184,6 +186,8 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
         .attr("height", function(d) { return 0; })
         .attr("width", xScale.bandwidth())
         .style("opacity", 0.85)
+        .style("stroke", function(d) { return d.data.Year == clickedYear ? "black" : "none"; })
+        .style("stroke-width", function(d) { return d.data.Year == clickedYear ? "2px" : "0"; })
         .on("mouseover", mouseover)
         .on("mousemove", mousemove)
         .on("mouseleave", mouseleave)
@@ -288,7 +292,7 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
         updateData(selectedCountry, selectedSex, 'sex');
     });
 
-    setCountryListener();
+
 
     //listen for changes to country global from choro - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
     function setCountryListener() {
@@ -306,6 +310,23 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
         readyListener();
     }
 
+    //listen for changes to year selected in slider and bars - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
+function setYearListener() {
+    var previousYear = 2000;
+
+    const readyListener = () => {
+        if (window.clickedYear && window.clickedYear != previousYear) {
+            console.log(clickedYear);
+            updateData(window.selectedCountry, selectedSex);
+            previousYear = window.clickedYear; // Update the previous country
+        }
+        setTimeout(readyListener, 250);
+    };
+    readyListener();
+}
+
+    setCountryListener();
+    setYearListener();
     window.selectedSex = selectedSex;
     window.window.clickedYear = window.clickedYear;
     updateData(selectedCountry, selectedSex);
