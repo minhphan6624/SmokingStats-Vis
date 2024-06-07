@@ -135,8 +135,8 @@ d3.csv("data/VapingTobacco.csv").then((data) => {
         //legend
         svg.append("circle").attr("cx", w/2-80).attr("cy", h-margin.bottom+40).attr("r", 6).style("fill", colours(0))
         svg.append("circle").attr("cx", w/2+60).attr("cy", h-margin.bottom+40).attr("r", 6).style("fill", colours(1))
-        svg.append("text").attr("x", w/2-70).attr("y", h-margin.bottom+42).text("Smoking").style("font-size", "15px").attr("alignment-baseline","middle")
-        svg.append("text").attr("x", w/2+70).attr("y", h-margin.bottom+42).text("Vaping").style("font-size", "15px").attr("alignment-baseline","middle")
+        svg.append("text").attr("x", w/2-70).attr("y", h-margin.bottom+42).text("Smoking").style("font-size", "15px").attr("alignment-baseline","middle").classed("header-text", true);
+        svg.append("text").attr("x", w/2+70).attr("y", h-margin.bottom+42).text("Vaping").style("font-size", "15px").attr("alignment-baseline","middle").classed("header-text", true);
             
         // Add a group for each row of data
         var groups = svg.selectAll("g.layer")
