@@ -216,3 +216,8 @@ body {
     font-family: 'Courier New', Courier, monospace;
 }
 
+/* --------------- Visualization 4 Styling --------------- */
+.vis-line {
+    display: none
+}
+
