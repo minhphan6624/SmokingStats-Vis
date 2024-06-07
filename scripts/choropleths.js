@@ -117,7 +117,7 @@ function createLegend(colorScale) {
             .attr("dy", "0.8em")
             .style("text-anchor", "middle")
         .style("font-size", "12px")
-        .text(d => d3.format(".2s")(d[0]));
+        .text(d => d3.format(".2")(d[0]));
 
     // Add "No data" label
     legendSvg.append("text")
@@ -170,7 +170,7 @@ function parseTobaccoData(data) {
     filteredData.forEach(d => {
         var year = +d.Year; // Convert Year to number
         var code = d["Country Code"]; // Country code remains a string
-        var tobaccoValue = +d["Observed Persons"]; // Tobacco consumption
+        var tobaccoValue = +d["Observed Percentage"]; // Tobacco consumption
 
         if (!countryData[code]) {
             countryData[code] = {};
@@ -190,7 +190,7 @@ function parseVapingData(data) {
     filteredData.forEach(d => {
         var year = +d.Year; // Convert Year to number
         var code = d["Country Code"]; // Country code remains a string
-        var vapeValue = +d["Observed Persons"]; // Vaping consumption
+        var vapeValue = +d["Observed Percentage"]; // Vaping consumption
 
         if (!countryData[code]) {
             countryData[code] = {};
