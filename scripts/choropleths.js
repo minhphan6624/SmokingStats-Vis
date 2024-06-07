@@ -261,6 +261,15 @@ function loadDataAndRender(dataset) {
                     d3.select(this).attr("stroke", "#000").attr("stroke-width", 1); // Highlight border of clicked country
                     lastClickedCountry = d; // Store the clicked country
                     window.selectedCountry = d.properties.name; // Store the selected country for stacked
+                })
+                .on("click", function (event, d) {
+                    mapSvg.selectAll('path').attr("stroke-width", 0.25); // reset all paths
+                    d3.select(this).attr("stroke", "#000").attr("stroke-width", 1); // Highlight border of clicked country
+                    lastClickedCountry = d; // Store the clicked country
+                    window.selectedCountry = d.properties.name; // Store the selected country for stacked
+                    
+                    // Call the function to update the line chart
+                    updateLineChart(d.properties.iso_a3);
                 });
 
             paths.exit().remove();

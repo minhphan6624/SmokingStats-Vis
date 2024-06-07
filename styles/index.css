@@ -161,7 +161,14 @@ body {
 
 /* --------------- Visualization 3 Styling --------------- */
 .vis3 {
-    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: left;
+}
+
+.stacked-buttons {
+    margin: 10px;
 }
 
 /* Sex filter buttons */
