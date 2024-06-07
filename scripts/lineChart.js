@@ -46,8 +46,8 @@ function drawLineChart(dataset) {
         .x(d => xScale(d.year))
         .y(d => yScale(d.value));
 
-    // Draw the line
-    svg.append("path")
+    // Draw the line with transition
+    const path = svg.append("path")
         .datum(dataset)
         .attr("class", "line")
         .attr("d", line)
@@ -55,11 +55,22 @@ function drawLineChart(dataset) {
         .attr("stroke", "steelblue")
         .attr("stroke-width", 2);
 
+    //Transition
+    const totalLength = path.node().getTotalLength();
+
+    path.attr("stroke-dasharray", totalLength + " " + totalLength)
+        .attr("stroke-dashoffset", totalLength)
+        .transition()
+        .duration(2000)
+        .ease(d3.easeLinear)
+        .attr("stroke-dashoffset", 0);
+
     // Tooltip
     const tooltip = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
 
+    // Circles with tooltip and transition
     svg.selectAll("circle")
         .data(dataset)
         .enter()
