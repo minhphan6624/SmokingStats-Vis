@@ -10,6 +10,8 @@ function updateLineChart(countryCode) {
     });
 }
 
+var formatter = d3.format(".2f"); //https://github.com/d3/d3/blob/45df8c66dfe43ad0824701f749a9bf4e3562df85/docs/d3-format.md?plain=1
+
 // Function to parse data for a specific country
 function parseCigarettesDataForCountry(data, countryCode) {
     return data.filter(d => d.Code === countryCode).map(d => ({
@@ -112,6 +114,7 @@ function drawLineChart(dataset) {
         focus.style("opacity", 1);
         focusText.style("opacity", 1);
     }
+    
 
     // Mousemove function
     function mousemove(event) {
@@ -124,15 +127,15 @@ function drawLineChart(dataset) {
         focusText
             .html(null)  // Clear any existing text
             .append('tspan')
-            .attr('x', xScale(selectedData.year) - 45)
+            .attr('x', xScale(selectedData.year) - 40)
             .attr('dy', '1.5em') // Position text above the data point
             .text(`Year: ${selectedData.year}`)
             .append('tspan')
-            .attr('x', xScale(selectedData.year) - 45)
+            .attr('x', xScale(selectedData.year) - 40)
             .attr('dy', '1.2em')
-            .text(`Value: ${selectedData.value}`);
+            .text(`Value: ${formatter(selectedData.value)}`);
         tooltip.transition().duration(200).style("opacity", .9);
-        tooltip.html(`Year: ${selectedData.year}<br>Value: ${selectedData.value}`)
+        tooltip.html(`Year: ${selectedData.year}<br>Value: ${formatter(selectedData.value)}`)
             .style("left", (event.pageX + 5) + "px")
             .style("top", (event.pageY - 28) + "px");
     }
@@ -159,7 +162,7 @@ function drawLineChart(dataset) {
         .attr("fill", "red")
         .on("mouseover", (event, d) => {
             tooltip.transition().duration(200).style("opacity", .9);
-            tooltip.html(`Year: ${d.year}<br>Value: ${d.value}`)
+            tooltip.html(`Year: ${d.year}<br>Value: ${formatter(d.value)}`)
                 .style("left", (event.pageX + 5) + "px")
                 .style("top", (event.pageY - 28) + "px");
         })
