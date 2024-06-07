@@ -63,7 +63,7 @@ function drawLineChart(dataset) {
         .attr("stroke", "steelblue")
         .attr("stroke-width", 2);
 
-    //Transition
+    //Transition (https://medium.com/@louisemoxy/create-a-d3-line-chart-animation-336f1cb7dd61)
     const totalLength = path.node().getTotalLength();
 
     path.attr("stroke-dasharray", totalLength + " " + totalLength)
