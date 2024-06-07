@@ -47,6 +47,72 @@ function zoomed(event) {
         .attr('transform', event.transform); // Apply the transform
 }
 
+// Function to zoom to the bounding box of a continent
+function zoomToContinent(boundingBox) {
+    var [[x0, y0], [x1, y1]] = boundingBox.map(projection);
+    var width = x1 - x0;
+    var height = y1 - y0;
+    var midX = (x0 + x1) / 2;
+    var midY = (y0 + y1) / 2;
+    var scale = Math.max(1, Math.min(8, 0.9 / Math.max(width / w, height / h)));
+    var translate = [w / 2 - scale * midX, h / 2 - scale * midY];
+
+    mapSvg.transition().duration(750).call(
+        zoom.transform,
+        d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale)
+    );
+}
+
+
+// Define bounding boxes for continents
+var continentBoundingBoxes = {
+    "Africa": [[-20, -35], [55, 37]],
+    "Asia": [[25, 5], [150, 55]],
+    "Europe": [[-30, 35], [45, 70]],
+    "North America": [[-170, 15], [-50, 80]],
+    "Oceania": [[110, -50], [180, 0]],
+    "South America": [[-90, -60], [-30, 15]],
+    "All": [[-180, -90], [180, 90]]
+};
+
+// Function to zoom to the bounding box of a continent
+function zoomToContinent(boundingBox) {
+    
+    // Transform the bounding box coordinates using the projection
+    var [[x0, y0], [x1, y1]] = boundingBox.map(projection); 
+    
+    // Calculate the width and height of the bounding box
+    var width = x1 - x0;
+    var height = y1 - y0;
+
+    // Calculate the midpoints of the bounding box
+    var midX = (x0 + x1) / 2;
+    var midY = (y0 + y1) / 2;
+
+    // Determine the scale factor to fit the bounding box within the view
+    var scale = Math.max(1, Math.min(8, 0.9 / Math.max(width / w, height / h)));
+
+    // Calculate the translation to center the bounding box within the view
+    var translate = [w / 2 - scale * midX, h / 2 - scale * midY];
+
+    // Apply the zoom transformation with a smooth transition
+    mapSvg.transition().duration(750).call(
+        zoom.transform,
+        d3.zoomIdentity.translate(translate[0], translate[1]).scale(scale)
+    );
+}
+
+// Dropdown box to select the continents
+var continentSelect = d3.select("#continent-select");
+
+// Modify the continent change event handler
+continentSelect.on("change", function () {
+    var selectedContinent = this.value;
+    var boundingBox = continentBoundingBoxes[selectedContinent];
+    zoomToContinent(boundingBox);
+});
+
+
 // --------------------------------------------- Tooltip ---------------------------------------------
 
 // Define the tooltip
@@ -106,16 +172,16 @@ function createLegend(colorScale) {
 
     legend.append("rect")
         .attr("x", 0)
-            .attr("y", 0)
-            .attr("width", legendRectSize)
-            .attr("height", legendHeight)
+        .attr("y", 0)
+        .attr("width", legendRectSize)
+        .attr("height", legendHeight)
         .style("fill", d => colorScale(d[0]));
 
     legend.append("text")
         .attr("x", legendRectSize / 2)
-            .attr("y", legendHeight + legendPadding)
-            .attr("dy", "0.8em")
-            .style("text-anchor", "middle")
+        .attr("y", legendHeight + legendPadding)
+        .attr("dy", "0.8em")
+        .style("text-anchor", "middle")
         .style("font-size", "12px")
         .text(d => d3.format(".2")(d[0]));
 
@@ -149,6 +215,18 @@ datasetSelect.on("change", function () {
     }
     
     loadDataAndRender(selectedDataset);
+});
+
+// --------------------------------------------- Continent selector ---------------------------------------------
+
+// Dropdown box to select the continents
+var continentSelect = d3.select("#continent-select");
+
+// Modify the continent change event handler
+continentSelect.on("change", function () {
+    var selectedContinent = this.value;
+    var boundingBox = continentBoundingBoxes[selectedContinent];
+    zoomToContinent(boundingBox);
 });
 
 // --------------------------------------------- Parser Functions ---------------------------------------------
@@ -383,5 +461,3 @@ function setSexListener() {
 
 setSexListener();
 setYearListener();
-
-
