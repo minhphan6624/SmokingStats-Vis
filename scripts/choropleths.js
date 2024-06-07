@@ -50,12 +50,13 @@ function zoomed(event) {
 // --------------------------------------------- Tooltip ---------------------------------------------
 
 // Define the tooltip
-var tooltip = d3.select("body").append("div")
+var tooltipMap = d3.select("body").append("div")
     .attr("id", "tooltip")
     .style("position", "absolute")
     .style("opacity", 0)
     .style("background-color", "white")
     .style("border", "1px solid #ccc")
+    .style("border-radius", "5px")
     .style("padding", "5px")
     .style("pointer-events", "none");
 
@@ -64,12 +65,12 @@ let mouseOutCallBack = function (event, d) {
     if (d != lastClickedCountry) { // Check country is not the last clicked country
         d3.select(this).attr("stroke", "black").attr("stroke-width", 0.25); // Reset border
     }
-    tooltip.transition().duration(500).style("opacity", 0);
+    tooltipMap.transition().duration(500).style("opacity", 0);
 }
 
 //Callback function for mouse move
 let mouseMoveCallBack = function (event) {
-    tooltip.style("left", (event.pageX + 5) + "px")
+    tooltipMap.style("left", (event.pageX + 5) + "px")
         .style("top", (event.pageY - 28) + "px");
 }
 
@@ -266,8 +267,8 @@ function loadDataAndRender(dataset) {
                 })
                 .on("mouseover", function (event, d) {
                     d3.select(this).attr("stroke", "#000").attr("stroke-width", 1); // Highlight border
-                    tooltip.transition().duration(200).style("opacity", .9);
-                    tooltip.html(d.properties.name + "<br/>" + d.properties.values[yearRange.min]?.[dataset])
+                    tooltipMap.transition().duration(200).style("opacity", .9);
+                    tooltipMap.html(d.properties.name + "<br/>" + d.properties.values[yearRange.min]?.[dataset])
                         .style("left", (event.pageX + 5) + "px")
                         .style("top", (event.pageY - 28) + "px");
                 })
@@ -329,8 +330,8 @@ function loadDataAndRender(dataset) {
                     })
                     .on("mouseover", function (event, d) {
                         d3.select(this).attr("stroke", "#000").attr("stroke-width", 1); // Highlight border
-                        tooltip.transition().duration(200).style("opacity", .9);
-                        tooltip.html(d.properties.name + "<br/>" + d.properties.values[selectedYear]?.[selectedDataset])
+                        tooltipMap.transition().duration(200).style("opacity", .9);
+                        tooltipMap.html(d.properties.name + "<br/>" + d.properties.values[selectedYear]?.[selectedDataset])
                             .style("left", (event.pageX + 5) + "px")
                             .style("top", (event.pageY - 28) + "px");
                     })

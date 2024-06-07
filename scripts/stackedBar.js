@@ -45,7 +45,7 @@ var mouseover = function(event, d) {
         .duration(400)
         .style("opacity", 1);
     var subgroupName = d3.select(this.parentNode).datum().key;
-    var subgroupValue = formatter(d.data[subgroupName]);
+    var subgroupValue = formatted(d.data[subgroupName]);
     tooltip.html("<strong>" + subgroupName + "</strong><br>" + "# of People: " + subgroupValue + "<br>" + "Sex: " + selectedSex + "<br>" + "Country: " + selectedCountry)
             .style("opacity", 1);
 }
