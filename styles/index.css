@@ -35,6 +35,10 @@ body {
 
 }
 
+.text-justify {
+    text-align: justify;
+}
+
 .vis-container {
     display: flex;
     flex-direction: row;
