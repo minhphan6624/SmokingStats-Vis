@@ -48,10 +48,6 @@ function zoomed(event) {
         .attr('transform', event.transform); // Apply the transform
 }
 
-// Dropdown box to select the datasets
-var datasetSelect = d3.select("#dataset-select");
-
-
 // --------------- Tooltip ---------------
 
 // Define the tooltip
@@ -132,6 +128,23 @@ function createLegend(colorScale) {
         .style("font-size", "12px")
         .text("No data");
 }
+
+// Dropdown box to select the datasets
+var datasetSelect = d3.select("#dataset-select");
+
+// Modify the dataset change event handler
+datasetSelect.on("change", function () {
+    var selectedDataset = this.value;
+
+    if (selectedDataset === "cigarettes") {
+        d3.select(".vis3").style("display", "none");
+        d3.select(".vis4").style("display", "block");
+    } else {
+        d3.select(".vis3").style("display", "block");
+        d3.select(".vis4").style("display", "none");
+    }
+    loadDataAndRender(selectedDataset);
+});
 
 // --------------- Parser Functions ---------------
 
@@ -267,9 +280,11 @@ function loadDataAndRender(dataset) {
                     d3.select(this).attr("stroke", "#000").attr("stroke-width", 1); // Highlight border of clicked country
                     lastClickedCountry = d; // Store the clicked country
                     window.selectedCountry = d.properties.name; // Store the selected country for stacked
-                    
-                    // Call the function to update the line chart
-                    updateLineChart(d.properties.iso_a3);
+
+                    // Call the function to update the line chart if the dataset is cigarettes
+                    if (dataset === "cigarettes") {
+                        updateLineChart(d.properties.iso_a3); // Ensure this function is globally accessible
+                    }
                 });
 
             paths.exit().remove();
@@ -325,18 +340,17 @@ function loadDataAndRender(dataset) {
         });
 
     });
-
-        // Create or update legend
-        createLegend(color);
+    // Create or update legend
+    createLegend(color);
 }
 
 // Load initial data
 loadDataAndRender(datasetSelect.node().value);
 
-// Update data when a new dataset is selected
-datasetSelect.on("change", function () {
-    loadDataAndRender(this.value);
-});
+// // Update data when a new dataset is selected
+// datasetSelect.on("change", function () {
+//     loadDataAndRender(this.value);
+// });
 
 // --------------- Data Update Listeners - linking stacked ---------------
 
@@ -358,6 +372,7 @@ function setCountryListener() {
     };
     readyListener();
 }
+
 //listen for changes to country global from stacked - https://stackoverflow.com/questions/65937827/listen-to-js-variable-change
 function setSexListener() {
     var previousSex = window.selectedSex;

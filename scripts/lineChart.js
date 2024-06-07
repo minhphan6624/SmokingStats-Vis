@@ -13,10 +13,10 @@ function parseCigarettesDataForCountry(data, countryCode) {
 // Function to draw the line chart
 function drawLineChart(dataset) {
     // Remove any existing SVG
-    d3.select("#chart").selectAll("svg").remove();
+    d3.select(".vis4").selectAll("svg").remove();
 
     // Create SVG
-    const svg = d3.select("#chart").append("svg")
+    const svg = d3.select(".vis4").append("svg")
         .attr("width", width)
         .attr("height", height);
 
