@@ -63,7 +63,7 @@ function drawLineChart(dataset) {
         .attr("stroke", "steelblue")
         .attr("stroke-width", 2);
 
-    //Transition (https://medium.com/@louisemoxy/create-a-d3-line-chart-animation-336f1cb7dd61)
+    // Transition (https://medium.com/@louisemoxy/create-a-d3-line-chart-animation-336f1cb7dd61)
     const totalLength = path.node().getTotalLength();
 
     path.attr("stroke-dasharray", totalLength + " " + totalLength)
@@ -74,15 +74,85 @@ function drawLineChart(dataset) {
         .attr("stroke-dashoffset", 0);
 
     // Tooltip
-    const tooltip = d3.select("body").append("div")
-        .attr("class", "tooltip")
+    // const tooltip = d3.select("body").append("div")
+    //     .attr("class", "tooltip")
+    //     .style("opacity", 0);
+
+    //Cursor tool tip (https://d3-graph-gallery.com/graph/line_cursor.html)
+    // Create the circle that travels along the curve of the chart
+    const focus = svg.append('g')
+        .append('circle')
+        .style("fill", "none")
+        .attr("stroke", "black")
+        .attr('r', 8.5)
         .style("opacity", 0);
 
-    // Circles with tooltip and transition
-    svg.selectAll("circle")
+    // Create the text that travels along the curve of the chart
+    const focusText = svg.append('g')
+        .append('text')
+        .style("opacity", 0)
+        .attr("text-anchor", "left")
+        .attr("alignment-baseline", "middle");
+
+    // Rectangle for capturing mouse movements (tracks it)
+    svg.append('rect')
+        .style("fill", "none")
+        .style("pointer-events", "all")
+        .attr('width', width)
+        .attr('height', height)
+        .on('mouseover', mouseover)
+        .on('mousemove', mousemove)
+        .on('mouseout', mouseout);
+
+    // Bisector for finding the closest data point
+    const bisect = d3.bisector(d => d.year).left;
+
+    // Mouseover function
+    function mouseover() {
+        focus.style("opacity", 1);
+        focusText.style("opacity", 1);
+    }
+
+    // Mousemove function
+    function mousemove(event) {
+        const x0 = xScale.invert(d3.pointer(event)[0]);
+        const i = bisect(dataset, x0);
+        const selectedData = i === dataset.length ? dataset[i - 1] : dataset[i];
+        focus
+            .attr("cx", xScale(selectedData.year))
+            .attr("cy", yScale(selectedData.value));
+        focusText
+            .html(null)  // Clear any existing text
+            .append('tspan')
+            .attr('x', xScale(selectedData.year) - 45)
+            .attr('dy', '1.5em') // Position text above the data point
+            .text(`Year: ${selectedData.year}`)
+            .append('tspan')
+            .attr('x', xScale(selectedData.year) - 45)
+            .attr('dy', '1.2em')
+            .text(`Value: ${selectedData.value}`);
+        tooltip.transition().duration(200).style("opacity", .9);
+        tooltip.html(`Year: ${selectedData.year}<br>Value: ${selectedData.value}`)
+            .style("left", (event.pageX + 5) + "px")
+            .style("top", (event.pageY - 28) + "px");
+    }
+    
+    
+    
+
+    // Mouseout function
+    function mouseout() {
+        focus.style("opacity", 0);
+        focusText.style("opacity", 0);
+        tooltip.transition().duration(500).style("opacity", 0);
+    }
+
+    // Draw circles for data points
+    svg.selectAll("circle.data-point")
         .data(dataset)
         .enter()
         .append("circle")
+        .attr("class", "data-point")
         .attr("cx", d => xScale(d.year))
         .attr("cy", d => yScale(d.value))
         .attr("r", 3)
@@ -97,5 +167,4 @@ function drawLineChart(dataset) {
             tooltip.transition().duration(500).style("opacity", 0);
         });
 }
-
 
